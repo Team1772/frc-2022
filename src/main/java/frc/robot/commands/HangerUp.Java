@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Hanger;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
