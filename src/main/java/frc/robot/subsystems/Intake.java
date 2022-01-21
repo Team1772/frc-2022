@@ -6,17 +6,17 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class Intake extends SubsystemBase {
-    private VictorSPX motor;
+  private VictorSPX motor;
 
-    public Intake(){
-        this.motor = new VictorSPX(IntakeConstants.motorsPorts);
-    }
+  public Intake() {
+    this.motor = new VictorSPX(IntakeConstants.motorsPorts);
+  }
 
-    public void set(double speed) {
-        this.motor.set(ControlMode.PercentOutput, speed);
-    }
+  public void set(double speed) {
+    this.motor.set(ControlMode.PercentOutput, speed);
+  }
 
-    public void stop() {
-        this.motor.set(ControlMode.PercentOutput, 0);
-    }
+  public void stop() {
+    this.motor.set(ControlMode.PercentOutput, 0);
+  }
 }

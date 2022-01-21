@@ -12,7 +12,7 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  private final Intake intake;  
+  private final Intake intake;
   private final XboxController operator;
 
   public RobotContainer() {
@@ -21,7 +21,8 @@ public class RobotContainer {
     this.configureButtonBindings();
   }
 
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+  }
 
   public Command getAutonomousCommand() {
     return m_autoCommand;
