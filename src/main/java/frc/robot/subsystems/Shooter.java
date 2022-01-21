@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -13,11 +13,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setSpeed(double speed){
-      this.motor.set(ControlMode.PercentOutput, speed);
+    this.motor.set(ControlMode.PercentOutput, speed);
   }
 
   public void stop(){
-      this.motor.set(ControlMode.PercentOutput, 0);
+    this.motor.set(ControlMode.PercentOutput, 0);
   }
 
   @Override
