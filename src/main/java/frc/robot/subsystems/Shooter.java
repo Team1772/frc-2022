@@ -16,7 +16,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void stop(){
-      this.motor.set(0);
+      this.motor.set(ControlMode.PercentOutput, 0);
   }
 
   @Override
