@@ -14,7 +14,7 @@ package frc.robot;
  */
 public final class Constants {
 
-    public static final class HangerConstants {
+    public static final class HangarConstants {
         public static final int[]
 			motorsPorts = new int[] { 2, 3 };
 
