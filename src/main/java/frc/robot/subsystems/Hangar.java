@@ -6,17 +6,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.HangerConstants;
 
 
-public class Hanger extends SubsystemBase {
+public class Hangar extends SubsystemBase {
   private VictorSPX motorOne, motorTwo;
 
-  public Hanger() {
+  public Hangar() {
     motorOne = new VictorSPX(HangerConstants.motorsPorts[0]);
     motorTwo = new VictorSPX(HangerConstants.motorsPorts[1]);
   }
 
-  public void set(double speedOne, double speedTwo) {
-    this.motorOne.set(ControlMode.PercentOutput, speedOne);
-    this.motorTwo.set(ControlMode.PercentOutput, speedTwo);
+  public void set(double speed) {
+    this.motorOne.set(ControlMode.PercentOutput, speed);
+    this.motorTwo.set(ControlMode.PercentOutput, speed);
   }
 
   @Override

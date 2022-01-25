@@ -2,19 +2,19 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.commands.HangerDown;
-import frc.robot.commands.HangerUp;
-import frc.robot.subsystems.Hanger;
+import frc.robot.commands.HangDown;
+import frc.robot.commands.HangUp;
+import frc.robot.subsystems.Hangar;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
 
-  private Hanger hanger;
+  private Hangar hanger;
   private XboxController operator;
 
   public RobotContainer() {
-    this.hanger = new Hanger();
+    this.hanger = new Hangar();
     configureButtonBindings();
   }
 
@@ -27,10 +27,10 @@ public class RobotContainer {
     var buttonB = new JoystickButton(this.operator, Button.kB.value);
 
     buttonA
-      .whileHeld(new HangerDown(this.hanger));
+      .whileHeld(new HangDown(this.hanger));
     
     buttonB
-      .whileHeld(new HangerUp(this.hanger));
+      .whileHeld(new HangUp(this.hanger));
   }
 
   public Command getAutonomousCommand() {
