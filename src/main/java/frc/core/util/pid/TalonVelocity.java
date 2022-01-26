@@ -33,7 +33,6 @@ public class TalonVelocity extends PIDTalon {
   public TalonVelocity(
     TalonSRX master,
     boolean isMasterInverted,
-    boolean isFollowersInverted,
     boolean isSensorPhase,
     Gains gains
   ) {

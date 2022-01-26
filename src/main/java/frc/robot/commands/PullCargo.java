@@ -14,7 +14,7 @@ public class PullCargo extends CommandBase {
 
   @Override
   public void execute() {
-    this.shooter.setSpeed(-1);
+    this.shooter.set(-1);
   }
 
   @Override
@@ -22,4 +22,3 @@ public class PullCargo extends CommandBase {
     this.shooter.stop();
   }
 }
-
