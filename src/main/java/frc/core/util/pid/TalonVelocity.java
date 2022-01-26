@@ -6,7 +6,7 @@ import frc.robot.Constants.PIDTalonConstants;
 import frc.robot.Constants.ShooterConstants;
 
 public class TalonVelocity extends PIDTalon {
-    private double velocityUnitsPer100ms;
+  private double velocityUnitsPer100ms;
 
   public TalonVelocity(
     TalonSRX master, 
