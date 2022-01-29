@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.buffer;
 
 import frc.robot.subsystems.Buffer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -16,12 +16,12 @@ public class Feed extends CommandBase {
 
   @Override
         public void execute() {
-                this.buffer.setSpeed(1. -1);
+                this.buffer.set(1. -1);
   }
 
   @Override
         public void end(boolean interrupted) {
-                this.buffer.setSpeed(0);
+                this.buffer.set(0);
   }
 
 }
