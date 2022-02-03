@@ -37,23 +37,23 @@ public class TrajectoryBuilder {
 	private RamseteCommand ramseteCommand;
 
 	public TrajectoryBuilder(Drivetrain drivetrain, String... filesNames) {
-					this.drivetrain = drivetrain;
+		this.drivetrain = drivetrain;
 
-					this.trajectories = this.mapTrajectories(filesNames);
+		this.trajectories = this.mapTrajectories(filesNames);
 
-					this.simpleMotorFeedforward = new SimpleMotorFeedforward(
-								DrivetrainConstants.ksVolts,
-								DrivetrainConstants.kvVoltSecondsPerMeter,
-								DrivetrainConstants.kaVoltSecondsSquaredPerMeter
+		this.simpleMotorFeedforward = new SimpleMotorFeedforward(
+			DrivetrainConstants.ksVolts,
+			DrivetrainConstants.kvVoltSecondsPerMeter,
+			DrivetrainConstants.kaVoltSecondsSquaredPerMeter
 		);
-					this.pidController = new ProfiledPIDController(
-								DrivetrainConstants.PID.kPDriveVelocity, 
-								DrivetrainConstants.PID.kIDriveVelocity, 
-								DrivetrainConstants.PID.kDDriveVelocity, null
+		this.pidController = new ProfiledPIDController(
+			DrivetrainConstants.PID.kPDriveVelocity, 
+			DrivetrainConstants.PID.kIDriveVelocity, 
+			DrivetrainConstants.PID.kDDriveVelocity, null
 		);
-					this.ramseteController = new RamseteController(
-								AutoConstants.kRamseteB, 
-								AutoConstants.kRamseteZeta
+		this.ramseteController = new RamseteController(
+			AutoConstants.kRamseteB, 
+			AutoConstants.kRamseteZeta
 		);
 	}
 
