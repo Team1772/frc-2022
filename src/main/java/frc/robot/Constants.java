@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
 public final class Constants {
   public static final class DrivetrainConstants {
     //motors
@@ -25,6 +27,24 @@ public final class Constants {
     //chassi
 		public static final int 
       wheelRadius = 0;
+
+    //voltageConstraint
+		public static final double 
+            ksVolts = 0.000, //kS
+            kvVoltSecondsPerMeter = 0.00, //kV
+            kaVoltSecondsSquaredPerMeter = 0.000, //kA
+            kTrackwidthMeters = 0.00,
+            differentialDriveVoltageConstraintMaxVoltage = 00;
+
+    public static final DifferentialDriveKinematics
+            kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
+
+    public static final class PID {
+            public static final double 
+                    kPDriveVelocity = 0.00,
+                    kIDriveVelocity = 0,
+                    kDDriveVelocity = 0;   
       
-  }
+        }
+    }
 }
