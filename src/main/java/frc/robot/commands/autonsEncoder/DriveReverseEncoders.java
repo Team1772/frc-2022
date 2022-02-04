@@ -52,7 +52,7 @@ public class DriveReverseEncoders extends CommandBase {
   private double decrease() {
     final var decrease = 0.01;
 
-    return this.speed - decrease;
+    return this.speed -= decrease;
   }
 
   @Override
