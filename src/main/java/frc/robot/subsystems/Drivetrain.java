@@ -5,7 +5,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.core.components.SmartNavX;
 import frc.robot.Constants.DrivetrainConstants;
@@ -15,6 +18,8 @@ public class Drivetrain extends SubsystemBase {
   private final DifferentialDrive drive;
   private final Encoder encoderRight, encoderLeft;
   private final SmartNavX navX;
+  private final DifferentialDriveOdometry odometry;
+
 
   public Drivetrain() {
     this.motorsRight = new MotorControllerGroup(
@@ -40,8 +45,10 @@ public class Drivetrain extends SubsystemBase {
         DrivetrainConstants.encoderRightPort[1],
         DrivetrainConstants.isEcondersInverted[1]);
 
-    this.navX = new SmartNavX();    
+    this.navX = new SmartNavX();
 
+    this.odometry = new DifferentialDriveOdometry(this.getRotation2d());
+ 
     this.setEncodersDistancePerPulse();
     this.resetEncoders();
   }
@@ -50,9 +57,22 @@ public class Drivetrain extends SubsystemBase {
     this.drive.arcadeDrive(forward, -(rotation));
   }
 
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    this.motorsLeft.setVoltage(leftVolts);
+    this.motorsRight.setVoltage(-(rightVolts));
+    this.drive.feed();
+  }
+
   public void resetEncoders() {
     this.encoderLeft.reset();
     this.encoderRight.reset();
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(
+      this.encoderLeft.getRate(), 
+      this.encoderRight.getRate()
+    );
   }
 
   public void resetNavX() {
@@ -72,6 +92,23 @@ public class Drivetrain extends SubsystemBase {
     return this.navX.getRotation2d();
   }
 
+  public Pose2d getPose() {
+    return this.odometry.getPoseMeters();
+  }
+
+  public void updateOdometry() {
+    this.odometry.update(
+      this.getRotation2d(), 
+      this.encoderLeft.getDistance(), 
+      this.encoderRight.getDistance()
+    );
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    this.resetEncoders();
+    this.odometry.resetPosition(pose, this.getRotation2d());
+  }
+
   public Encoder getEncoderLeft() {
     return this.encoderLeft;
   }
@@ -82,7 +119,7 @@ public class Drivetrain extends SubsystemBase {
 
   public void setMotorsInverted(boolean isMotorsLeftInverted, boolean isMotorsRightInverted) {
     this.motorsRight.setInverted(isMotorsRightInverted);
-    this.motorsLeft.setInverted(isMotorsRightInverted);
+    this.motorsLeft.setInverted(isMotorsLeftInverted);
   }
 
   public void setEncodersDistancePerPulse() {

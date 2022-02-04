@@ -30,21 +30,30 @@ public final class Constants {
 
     //voltageConstraint
 		public static final double 
-            ksVolts = 0.000, //kS
-            kvVoltSecondsPerMeter = 0.00, //kV
-            kaVoltSecondsSquaredPerMeter = 0.000, //kA
-            kTrackwidthMeters = 0.00,
-            differentialDriveVoltageConstraintMaxVoltage = 00;
+      ksVolts = 0.000, //kS
+      kvVoltSecondsPerMeter = 0.00, //kV
+      kaVoltSecondsSquaredPerMeter = 0.000, //kA
+      kTrackwidthMeters = 0.00,
+      differentialDriveVoltageConstraintMaxVoltage = 00;
 
     public static final DifferentialDriveKinematics
-            kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
+      kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
 
     public static final class PID {
-            public static final double 
-                    kPDriveVelocity = 0.00,
-                    kIDriveVelocity = 0,
-                    kDDriveVelocity = 0;   
+      public static final double 
+        kPDriveVelocity = 0.00,
+        kIDriveVelocity = 0,
+        kDDriveVelocity = 0;   
       
-        }
     }
+  }
+
+    public static final class AutoConstants {
+      public static final double 
+        kMaxSpeedMetersPerSecond = 2,
+        kMaxAccelerationMetersPerSecondSquared = 2,
+        kRamseteB = 2,
+        kRamseteZeta = 0.7;
+    }
+  
 }
