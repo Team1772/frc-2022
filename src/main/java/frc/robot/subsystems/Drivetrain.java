@@ -11,6 +11,34 @@ import frc.core.components.SmartNavX;
 import frc.robot.Constants.DrivetrainConstants;
 
 public class Drivetrain extends SubsystemBase {
+
+  public enum Arcade {
+    FULL_SPEED(1.0), 
+    STOP(0.0), 
+    NO_ROTATION(0.0);
+
+    public final double value;
+    Arcade(double value) {
+      this.value = value;
+    }
+
+    public double get() {
+      return this.value;
+    }
+
+    public static double fullSpeed() {
+      return FULL_SPEED.get();
+    }
+
+    public static double stop() {
+      return STOP.get();
+    }
+
+    public static double noRotation() {
+      return NO_ROTATION.get();
+    }
+  }
+
   private final MotorControllerGroup motorsRight, motorsLeft;
   private final DifferentialDrive drive;
   private final Encoder encoderRight, encoderLeft;
@@ -80,9 +108,13 @@ public class Drivetrain extends SubsystemBase {
     return this.encoderRight;
   }
 
+  public double getAverageDistance() {
+    return this.encoderLeft.getDistance() + this.encoderRight.getDistance() / 2.0;
+  }
+
   public void setMotorsInverted(boolean isMotorsLeftInverted, boolean isMotorsRightInverted) {
     this.motorsRight.setInverted(isMotorsRightInverted);
-    this.motorsLeft.setInverted(isMotorsRightInverted);
+    this.motorsLeft.setInverted(isMotorsLeftInverted);
   }
 
   public void setEncodersDistancePerPulse() {
