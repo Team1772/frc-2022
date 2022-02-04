@@ -61,7 +61,7 @@ public class TrajectoryBuilder {
 		return Arrays.stream(filesNames)
 			    .collect(Collectors.toMap(
 				    fileName -> fileName,
-				    fileName -> this.createTrajectory(fileName)
+				    this::createTrajectory
 			    ));
 	}
 	
