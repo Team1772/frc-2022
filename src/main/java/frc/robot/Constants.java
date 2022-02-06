@@ -27,4 +27,26 @@ public final class Constants {
       wheelRadius = 0;
       
   }
+
+  public static final class LimelightConstants {
+		public static final String tableName = "limelight";
+		public static final int pipeline = 0;
+
+		public static final class AimTarget {
+			public static final 
+        double kP = 0,
+				minCommand = 0;
+		}
+		
+		public static final class AimAndRangeTarget {
+			public static final 
+        double kP = 0,
+				kPDistance = 0,
+				minCommand = 0;
+		}
+
+		public static final class Seeking {
+			public static final double kP = 0;
+		}
+	}
 }
