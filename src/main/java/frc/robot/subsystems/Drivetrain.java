@@ -78,6 +78,11 @@ public class Drivetrain extends SubsystemBase {
     this.drive.arcadeDrive(forward, -(rotation));
   }
 
+  //use it on autonomous with encoders
+  public void setMaxOutput(double maxOutput) {
+    this.drive.setMaxOutput(maxOutput);
+  }
+
   public void resetEncoders() {
     this.encoderLeft.reset();
     this.encoderRight.reset();
