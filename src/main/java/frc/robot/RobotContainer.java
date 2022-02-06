@@ -15,7 +15,6 @@ public class RobotContainer {
 
   private XboxController driver;
 
-
   public RobotContainer() {
     this.drivetrain = new Drivetrain();
     this.driver = new XboxController(OIConstants.driverControllerPort);
@@ -39,6 +38,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new Test(this.trajectoryBuilder);
+    // return new Test(this.trajectoryBuilder);
+    return null;
   }
 }

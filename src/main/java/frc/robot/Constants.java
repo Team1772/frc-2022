@@ -21,12 +21,12 @@ public final class Constants {
       isEncodersInverted = new boolean[] { true, true };
     
     public static final int 
-			pulsesRight = 0,
-			pulsesLeft = 0;  
+			pulsesRight = 500,
+			pulsesLeft = 500;  
 
     //chassi
 		public static final int 
-      wheelRadius = 0;
+      wheelRadius = 2;
 
     //voltageConstraint
 		public static final double 
