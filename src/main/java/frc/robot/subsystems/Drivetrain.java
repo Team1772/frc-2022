@@ -57,9 +57,12 @@ public class Drivetrain extends SubsystemBase {
     this.drive.arcadeDrive(forward, -(rotation));
   }
 
+  //the numbers are negative, just for tests
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    this.motorsLeft.setVoltage(leftVolts);
-    this.motorsRight.setVoltage(rightVolts);
+    SmartDashboard.putNumber("left volts", leftVolts);
+    SmartDashboard.putNumber("right volts", rightVolts);
+    this.motorsLeft.setVoltage(-leftVolts);
+    this.motorsRight.setVoltage(-rightVolts);
     this.drive.feed();
   }
 

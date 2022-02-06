@@ -9,8 +9,9 @@ public final class Constants {
       motorRightPort = new int[] { 0, 1 },
       motorLeftPort = new int[] { 2, 3 };
 
+    //this setting (false, true) is inverting all the robot
     public static final boolean[] 
-      isMotorsInverted = new boolean[] { true, false };
+      isMotorsInverted = new boolean[] { false, true };
 
     //encoders
     public static final int[] 
