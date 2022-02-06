@@ -10,7 +10,7 @@ public final class Constants {
       motorLeftPort = new int[] { 2, 3 };
 
     public static final boolean[] 
-      isMotorsInverted = new boolean[] { true, true };
+      isMotorsInverted = new boolean[] { true, false };
 
     //encoders
     public static final int[] 
@@ -18,7 +18,7 @@ public final class Constants {
       encoderLeftPort = new int[] { 8, 9 };
 
     public static final boolean[] 
-      isEcondersInverted = new boolean[] { true, true };
+      isEncodersInverted = new boolean[] { true, true };
     
     public static final int 
 			pulsesRight = 0,
@@ -47,6 +47,12 @@ public final class Constants {
       
     }
   }
+
+    public static final class OIConstants {
+		  public static final int
+		  	driverControllerPort = 0,
+		  	operatorControllerPort = 1;
+	  }
 
     public static final class AutoConstants {
       public static final double 

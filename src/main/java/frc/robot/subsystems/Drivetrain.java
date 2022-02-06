@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -19,7 +20,6 @@ public class Drivetrain extends SubsystemBase {
   private final Encoder encoderRight, encoderLeft;
   private final SmartNavX navX;
   private final DifferentialDriveOdometry odometry;
-
 
   public Drivetrain() {
     this.motorsRight = new MotorControllerGroup(
@@ -38,12 +38,12 @@ public class Drivetrain extends SubsystemBase {
     this.encoderLeft = new Encoder(
         DrivetrainConstants.encoderLeftPort[0],
         DrivetrainConstants.encoderLeftPort[1],
-        DrivetrainConstants.isEcondersInverted[0]);
+        DrivetrainConstants.isEncodersInverted[0]);
 
     this.encoderRight = new Encoder(
         DrivetrainConstants.encoderRightPort[0],
         DrivetrainConstants.encoderRightPort[1],
-        DrivetrainConstants.isEcondersInverted[1]);
+        DrivetrainConstants.isEncodersInverted[1]);
 
     this.navX = new SmartNavX();
 
@@ -73,6 +73,12 @@ public class Drivetrain extends SubsystemBase {
       this.encoderLeft.getRate(), 
       this.encoderRight.getRate()
     );
+  }
+
+  public double getAverageDistance() {
+    var averageDistance = (this.encoderLeft.getDistance() + this.encoderRight.getDistance()) / 2.0;
+    
+    return averageDistance;
   }
 
   public void resetNavX() {
@@ -130,5 +136,14 @@ public class Drivetrain extends SubsystemBase {
 
     this.encoderLeft.setDistancePerPulse(distancePerPulseLeft);
     this.encoderRight.setDistancePerPulse(distancePerPulseRight);
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("[DRIVETRAIN] Encoder Left", this.encoderLeft.get());
+    SmartDashboard.putNumber("[DRIVETRAIN] Encoder Right", this.encoderRight.get());
+    SmartDashboard.putNumber("[DRIVETRAIN] Average Distance", this.getAverageDistance());
+    
+    this.updateOdometry();
   }
 }
