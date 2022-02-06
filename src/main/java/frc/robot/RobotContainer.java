@@ -38,7 +38,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    // return new Test(this.trajectoryBuilder);
-    return null;
+    return new Test(this.trajectoryBuilder);
   }
 }
