@@ -6,24 +6,22 @@ public final class Constants {
   public static final class DrivetrainConstants {
     //motors
     public static final int[] 
-      motorRightPort = new int[] { 0, 1 },
-      motorLeftPort = new int[] { 2, 3 };
+      motorLeftPort = new int[] { 2, 3 },
+      motorRightPort = new int[] { 0, 1 };
 
-    //this setting (false, true) is inverting all the robot
     public static final boolean[] 
       isMotorsInverted = new boolean[] { false, true };
 
     //encoders
     public static final int[] 
-      encoderRightPort = new int[] { 6, 7 },
-      encoderLeftPort = new int[] { 8, 9 };
+      encoderLeftPort = new int[] { 8, 9 },
+      encoderRightPort = new int[] { 6, 7 };
 
     public static final boolean[] 
       isEncodersInverted = new boolean[] { true, true };
     
     public static final int 
-			pulsesRight = 500,
-			pulsesLeft = 500;  
+			pulses = 2000;  
 
     //chassi
 		public static final int 
@@ -31,9 +29,9 @@ public final class Constants {
 
     //voltageConstraint
 		public static final double 
-      ksVolts = 0.8408, //kS
-      kvVoltSecondsPerMeter = 2.5464, //kV
-      kaVoltSecondsSquaredPerMeter = 0.5173, //kA
+      ksVolts = 0.9877, //kS
+      kvVoltSecondsPerMeter = 2.6644, //kV
+      kaVoltSecondsSquaredPerMeter = 0.42031, //kA
       kTrackwidthMeters = 2.79,
       differentialDriveVoltageConstraintMaxVoltage = 7;
 
@@ -42,7 +40,7 @@ public final class Constants {
 
     public static final class PID {
       public static final double 
-        kPDriveVelocity = 3.8241,
+        kPDriveVelocity = 3.8537,
         kIDriveVelocity = 0,
         kDDriveVelocity = 0;   
       

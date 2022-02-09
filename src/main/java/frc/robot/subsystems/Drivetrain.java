@@ -54,15 +54,15 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double forward, double rotation) {
-    this.drive.arcadeDrive(forward, -(rotation));
+    this.drive.arcadeDrive(-forward, rotation);
   }
 
   //the numbers are negative, just for tests
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     SmartDashboard.putNumber("left volts", leftVolts);
     SmartDashboard.putNumber("right volts", rightVolts);
-    this.motorsLeft.setVoltage(-leftVolts);
-    this.motorsRight.setVoltage(-rightVolts);
+    this.motorsLeft.setVoltage(leftVolts);
+    this.motorsRight.setVoltage(rightVolts);
     this.drive.feed();
   }
 
@@ -127,15 +127,15 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void setMotorsInverted(boolean isMotorsLeftInverted, boolean isMotorsRightInverted) {
-    this.motorsRight.setInverted(isMotorsRightInverted);
     this.motorsLeft.setInverted(isMotorsLeftInverted);
+    this.motorsRight.setInverted(isMotorsRightInverted);
   }
 
   public void setEncodersDistancePerPulse() {
     var wheelCircumferenceMeters = Units.inchesToMeters(DrivetrainConstants.wheelRadius) * 2 * Math.PI;
 
-    var distancePerPulseLeft = wheelCircumferenceMeters / (double) DrivetrainConstants.pulsesLeft;
-    var distancePerPulseRight = wheelCircumferenceMeters / (double) DrivetrainConstants.pulsesRight;
+    var distancePerPulseLeft = wheelCircumferenceMeters / (double) DrivetrainConstants.pulses;
+    var distancePerPulseRight = wheelCircumferenceMeters / (double) DrivetrainConstants.pulses;
 
     this.encoderLeft.setDistancePerPulse(distancePerPulseLeft);
     this.encoderRight.setDistancePerPulse(distancePerPulseRight);
