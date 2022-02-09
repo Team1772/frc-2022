@@ -19,7 +19,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    this.drivetrain.reset();
+
+  }
 
   @Override
   public void disabledPeriodic() {}

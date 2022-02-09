@@ -134,8 +134,8 @@ public class Drivetrain extends SubsystemBase {
   public void setEncodersDistancePerPulse() {
     var wheelCircumferenceMeters = Units.inchesToMeters(DrivetrainConstants.wheelRadius) * 2 * Math.PI;
 
-    var distancePerPulseLeft = wheelCircumferenceMeters / (double) DrivetrainConstants.pulses;
-    var distancePerPulseRight = wheelCircumferenceMeters / (double) DrivetrainConstants.pulses;
+    var distancePerPulseLeft = wheelCircumferenceMeters / (double) DrivetrainConstants.cyclesPerRevolution;
+    var distancePerPulseRight = wheelCircumferenceMeters / (double) DrivetrainConstants.cyclesPerRevolution;
 
     this.encoderLeft.setDistancePerPulse(distancePerPulseLeft);
     this.encoderRight.setDistancePerPulse(distancePerPulseRight);

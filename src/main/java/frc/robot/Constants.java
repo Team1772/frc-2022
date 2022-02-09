@@ -20,8 +20,9 @@ public final class Constants {
     public static final boolean[] 
       isEncodersInverted = new boolean[] { true, true };
     
-    public static final int 
-			pulses = 2000;  
+    public static final int
+      pulsesPerRotation = 500, 
+			cyclesPerRevolution = pulsesPerRotation * 4;  
 
     //chassi
 		public static final int 
@@ -32,7 +33,7 @@ public final class Constants {
       ksVolts = 0.9877, //kS
       kvVoltSecondsPerMeter = 2.6644, //kV
       kaVoltSecondsSquaredPerMeter = 0.42031, //kA
-      kTrackwidthMeters = 2.79,
+      kTrackwidthMeters = 0.665,
       differentialDriveVoltageConstraintMaxVoltage = 7;
 
     public static final DifferentialDriveKinematics
