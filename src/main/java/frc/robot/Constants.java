@@ -9,8 +9,9 @@ public final class Constants {
       motorRightPort = new int[] { 0, 1 },
       motorLeftPort = new int[] { 2, 3 };
 
+    //this setting (false, true) is inverting all the robot
     public static final boolean[] 
-      isMotorsInverted = new boolean[] { true, true };
+      isMotorsInverted = new boolean[] { false, true };
 
     //encoders
     public static final int[] 
@@ -18,35 +19,41 @@ public final class Constants {
       encoderLeftPort = new int[] { 8, 9 };
 
     public static final boolean[] 
-      isEcondersInverted = new boolean[] { true, true };
+      isEncodersInverted = new boolean[] { true, true };
     
     public static final int 
-			pulsesRight = 0,
-			pulsesLeft = 0;  
+			pulsesRight = 500,
+			pulsesLeft = 500;  
 
     //chassi
 		public static final int 
-      wheelRadius = 0;
+      wheelRadius = 2;
 
     //voltageConstraint
 		public static final double 
-      ksVolts = 0.000, //kS
-      kvVoltSecondsPerMeter = 0.00, //kV
-      kaVoltSecondsSquaredPerMeter = 0.000, //kA
-      kTrackwidthMeters = 0.00,
-      differentialDriveVoltageConstraintMaxVoltage = 00;
+      ksVolts = 0.8408, //kS
+      kvVoltSecondsPerMeter = 2.5464, //kV
+      kaVoltSecondsSquaredPerMeter = 0.5173, //kA
+      kTrackwidthMeters = 2.79,
+      differentialDriveVoltageConstraintMaxVoltage = 7;
 
     public static final DifferentialDriveKinematics
       kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
 
     public static final class PID {
       public static final double 
-        kPDriveVelocity = 0.00,
+        kPDriveVelocity = 3.8241,
         kIDriveVelocity = 0,
         kDDriveVelocity = 0;   
       
     }
   }
+
+    public static final class OIConstants {
+		  public static final int
+		  	driverControllerPort = 0,
+		  	operatorControllerPort = 1;
+	  }
 
     public static final class AutoConstants {
       public static final double 
