@@ -2,7 +2,7 @@ package frc.robot;
 
 public final class Constants {
     public static final class IntakeConstants {
-		public static final int	motorsPorts = 2;
+		public static final int	motorPort = 2;
 	}
 
 	public static final class OIConstants {

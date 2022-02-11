@@ -9,7 +9,7 @@ public class Intake extends SubsystemBase {
   private VictorSPX motor;
 
   public Intake() {
-    this.motor = new VictorSPX(IntakeConstants.motorsPorts);
+    this.motor = new VictorSPX(IntakeConstants.motorPort);
   }
 
   public void set(double speed) {
