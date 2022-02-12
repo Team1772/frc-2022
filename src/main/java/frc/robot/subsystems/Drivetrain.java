@@ -30,8 +30,8 @@ public class Drivetrain extends SubsystemBase {
         new VictorSP(DrivetrainConstants.motorLeftPort[1]));
 
     this.setMotorsInverted(
-        DrivetrainConstants.isMotorsInverted[0],
-        DrivetrainConstants.isMotorsInverted[1]);
+        DrivetrainConstants.isMotorLeftInverted,
+        DrivetrainConstants.isMotorRightInverted);
 
     this.drive = new DifferentialDrive(this.motorsRight, this.motorsLeft);
 

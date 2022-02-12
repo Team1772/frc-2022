@@ -6,11 +6,12 @@ public final class Constants {
   public static final class DrivetrainConstants {
     //motors
     public static final int[] 
-      motorLeftPort = new int[] { 2, 3 },
-      motorRightPort = new int[] { 0, 1 };
+      motorLeftPort = new int[] { 0, 1 },
+      motorRightPort = new int[] { 2, 3 };
 
-    public static final boolean[] 
-      isMotorsInverted = new boolean[] { true, false };
+    public static final boolean 
+      isMotorLeftInverted = true,
+      isMotorRightInverted = false;
 
     //encoders
     public static final int[] 
