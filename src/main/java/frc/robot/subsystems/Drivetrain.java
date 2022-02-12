@@ -63,6 +63,7 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("right volts", rightVolts);
     this.motorsLeft.setVoltage(leftVolts);
     this.motorsRight.setVoltage(rightVolts);
+
     this.drive.feed();
   }
 
@@ -105,6 +106,7 @@ public class Drivetrain extends SubsystemBase {
     return this.odometry.getPoseMeters();
   }
 
+
   public void updateOdometry() {
     this.odometry.update(
       this.getRotation2d(), 
@@ -134,11 +136,10 @@ public class Drivetrain extends SubsystemBase {
   public void setEncodersDistancePerPulse() {
     var wheelCircumferenceMeters = Units.inchesToMeters(DrivetrainConstants.wheelRadius) * 2 * Math.PI;
 
-    var distancePerPulseLeft = wheelCircumferenceMeters / (double) DrivetrainConstants.cyclesPerRevolution;
-    var distancePerPulseRight = wheelCircumferenceMeters / (double) DrivetrainConstants.cyclesPerRevolution;
+    var distancePerPulse = wheelCircumferenceMeters / (double) DrivetrainConstants.pulsesPerRotation;
 
-    this.encoderLeft.setDistancePerPulse(distancePerPulseLeft);
-    this.encoderRight.setDistancePerPulse(distancePerPulseRight);
+    this.encoderLeft.setDistancePerPulse(distancePerPulse);
+    this.encoderRight.setDistancePerPulse(distancePerPulse);
   }
 
   @Override

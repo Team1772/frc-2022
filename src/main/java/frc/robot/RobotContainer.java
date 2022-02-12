@@ -40,4 +40,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return new Test(this.trajectoryBuilder);
   }
+
+  public void reset() {
+    this.drivetrain.reset();
+  }
 }
