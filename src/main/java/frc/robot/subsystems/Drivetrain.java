@@ -54,7 +54,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double forward, double rotation) {
-    this.drive.arcadeDrive(-forward, rotation);
+    this.drive.arcadeDrive(forward, rotation);
   }
 
   //the numbers are negative, just for tests

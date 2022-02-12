@@ -10,7 +10,7 @@ public final class Constants {
       motorRightPort = new int[] { 0, 1 };
 
     public static final boolean[] 
-      isMotorsInverted = new boolean[] { false, true };
+      isMotorsInverted = new boolean[] { true, false };
 
     //encoders
     public static final int[] 
@@ -30,10 +30,10 @@ public final class Constants {
 
     //voltageConstraint
 		public static final double 
-      ksVolts = 0.9877, //kS
-      kvVoltSecondsPerMeter = 2.6644, //kV
-      kaVoltSecondsSquaredPerMeter = 0.42031, //kA
-      kTrackwidthMeters = 0.665,
+      ksVolts = 1.103, //kS
+      kvVoltSecondsPerMeter = 2.6508, //kV
+      kaVoltSecondsSquaredPerMeter = 0.4465, //kA
+      kTrackwidthMeters = 0.8523,
       differentialDriveVoltageConstraintMaxVoltage = 7;
 
     public static final DifferentialDriveKinematics
@@ -41,7 +41,7 @@ public final class Constants {
 
     public static final class PID {
       public static final double 
-        kPDriveVelocity = 3.8537,
+        kPDriveVelocity = 3.8848,
         kIDriveVelocity = 0,
         kDDriveVelocity = 0;   
       
