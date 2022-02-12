@@ -35,7 +35,8 @@ public class RobotContainer {
 
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
-      "test"
+      "testAuto1",
+      "testAuto2"
     );
 
     configureButtonBindings();
@@ -53,38 +54,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return new Test(this.trajectoryBuilder);
-    // String trajectoryJSON = "paths/output/test.wpilib.json";
-    // Trajectory trajectory = new Trajectory();
-
-    // try {
-    //   Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-    //   trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    // } catch (IOException ex) {
-    //   DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    // }
-    
-    // RamseteCommand ramseteCommand =
-    //     new RamseteCommand(
-    //         trajectory,
-    //         this.drivetrain::getPose,
-    //         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-    //         new SimpleMotorFeedforward(
-    //             DrivetrainConstants.ksVolts,
-    //             DrivetrainConstants.kvVoltSecondsPerMeter,
-    //             DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
-    //         DrivetrainConstants.kDriveKinematics,
-    //         this.drivetrain::getWheelSpeeds,
-    //         new PIDController(PID.kPDriveVelocity, 0, 0),
-    //         new PIDController(PID.kPDriveVelocity, 0, 0),
-    //         // RamseteCommand passes volts to the callback
-    //         this.drivetrain::tankDriveVolts,
-    //         this.drivetrain);
-
-    // // Reset odometry to the starting pose of the trajectory.
-    // this.drivetrain.resetOdometry(trajectory.getInitialPose());
-
-    // // Run path following command, then stop at the end.
-    // return ramseteCommand.andThen(() -> this.drivetrain.tankDriveVolts(0, 0));
   }
 
   public void reset() {

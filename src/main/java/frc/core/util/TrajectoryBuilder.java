@@ -27,6 +27,9 @@ import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.Drivetrain;
 
 public class TrajectoryBuilder {
+
+	private static final int FIRST_TRAJECTORY_INDEX = 0;
+
 	private Drivetrain drivetrain;
 
 	private final SimpleMotorFeedforward simpleMotorFeedforward;
@@ -84,22 +87,27 @@ public class TrajectoryBuilder {
 				this.drivetrain::tankDriveVolts, 
 				this.drivetrain
 			);
-
+					
 			if (updateOdometry) this.drivetrain.resetOdometry(trajectory.getInitialPose());
 		}
-  }
+  	}
 
-  public Command build(boolean updateOdometry, String... filesNames) {
+  	public Command build(boolean updateOdometry, String... filesNames) {
+		System.out.println(filesNames[0]);
 		var trajectories = this.trajectories
-			.entrySet().stream()
-			.filter(trajectory -> Set.of(filesNames).contains(trajectory.getKey()))
+			.entrySet()
+			.stream()
+			.filter(trajectory -> Set.of(filesNames)
+				.contains(trajectory.getKey()))
 			.map(Entry::getValue)
 			.collect(Collectors.toList());
-		Collections.reverse(trajectories);
+		// Collections.reverse(trajectories);
 
-		var trajectory = this.trajectories.size() > 1 ? 
+		var trajectory = trajectories.size() > 1 ? 
 			this.concatenate(trajectories) : 
-      trajectories.get(0);
+      		trajectories.get(FIRST_TRAJECTORY_INDEX);
+
+		System.out.println(trajectories.size());
 
 		this.createRamsete(trajectory, updateOdometry);
 
@@ -108,7 +116,7 @@ public class TrajectoryBuilder {
     );
 	}
 		
-	public Command build(String... filesNames) {
+	public Command run(String... filesNames) {
 		return this.build(true, filesNames);
 	}
 
@@ -133,35 +141,12 @@ public class TrajectoryBuilder {
 	}
 
 	private Trajectory concatenate(List<Trajectory> trajectories) {
-		var trajectory = trajectories.get(0);
+		var finalTrajectory = trajectories.get(FIRST_TRAJECTORY_INDEX);
 
-		for (var otherTrajectory : trajectories.subList(1, trajectories.size())) {
-				var states = trajectory.getStates().stream()
-					.map(
-						state ->
-							new State(
-								state.timeSeconds,
-								state.velocityMetersPerSecond,
-								state.accelerationMetersPerSecondSq,
-								state.poseMeters,
-								state.curvatureRadPerMeter)
-              )
-					.collect(Collectors.toList());
-
-			for (var state : otherTrajectory.getStates()) {
-				states.add(new State(
-					state.timeSeconds + trajectory.getTotalTimeSeconds(),
-					state.velocityMetersPerSecond,
-					state.accelerationMetersPerSecondSq,
-					state.poseMeters,
-					state.curvatureRadPerMeter
-					)
-				);
-			}
-	
-			trajectory = new Trajectory(states);
-		}	
-
-		return trajectory;
+		for (var trajectory : trajectories.subList(1, trajectories.size())){
+			finalTrajectory = finalTrajectory.concatenate(trajectory);
+		}
+		
+		return finalTrajectory;
 	}
 }
