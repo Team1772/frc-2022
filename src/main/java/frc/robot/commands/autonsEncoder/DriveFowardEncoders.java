@@ -5,6 +5,11 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Arcade;
 
 public class DriveFowardEncoders extends CommandBase {
+  
+  private static final double DECREASE_SPEED_RATE = 0.01;
+  private static final double MINIMUM_SPEED = 0.25;
+  private static final double ONE_METER = 1.0;
+
   private final Drivetrain drivetrain;
   private double meters;
   private double speed;
@@ -34,15 +39,11 @@ public class DriveFowardEncoders extends CommandBase {
   }
 
   private boolean isNearEnd() {
-    var oneMeter = 1.0;
-
-    return this.drivetrain.getAverageDistance() + oneMeter > this.meters;
+    return this.drivetrain.getAverageDistance() + ONE_METER > this.meters;
   }
 
   private boolean isSpeedAtMinimum() {
-    final var minimum = 0.25;
-
-    return this.speed <= minimum;
+    return this.speed <= MINIMUM_SPEED;
   }
 
   private double keep() {
@@ -50,13 +51,12 @@ public class DriveFowardEncoders extends CommandBase {
   }
 
   private double decrease() {
-    final var decrease = 0.01;
-    return this.speed - decrease;
+    return this.speed - DECREASE_SPEED_RATE;
   }
 
   @Override
   public void end(boolean interrupted) {
-    this.drivetrain.arcadeDrive(Arcade.fullSpeed(), Arcade.noRotation());
+    this.drivetrain.arcadeDrive(Arcade.stop(), Arcade.noRotation());
     this.drivetrain.reset();
   }
 

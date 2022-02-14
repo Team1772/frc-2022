@@ -5,13 +5,18 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Arcade;
 
 public class DriveReverseEncoders extends CommandBase {
+
+  private static final double DECREASE_SPEED_RATE = 0.01;
+  private static final double MINIMUM_SPEED = 0.25;
+  private static final double ONE_METER = 1.0;
+
   private final Drivetrain drivetrain;
   private double meters;
   private double speed;
 
   public DriveReverseEncoders(double meters, double speed, Drivetrain drivetrain) {
     this.meters = meters;
-    this.speed = speed;
+    this.speed = negate(speed);
     this.drivetrain = drivetrain;
 
     addRequirements(this.drivetrain);
@@ -34,15 +39,11 @@ public class DriveReverseEncoders extends CommandBase {
   }
 
   private boolean isNearEnd() {
-    var oneMeter = 1.0;
-
-    return abs(this.drivetrain.getAverageDistance()) + oneMeter > this.meters;
+    return abs(this.drivetrain.getAverageDistance()) + ONE_METER > this.meters;
   }
 
   private boolean isSpeedAtMinimum() {
-    final var minimum = 0.25;
-
-    return this.speed <= minimum;
+    return this.speed >= negate(MINIMUM_SPEED);
   }
 
   private double keep() {
@@ -50,14 +51,12 @@ public class DriveReverseEncoders extends CommandBase {
   }
 
   private double decrease() {
-    final var decrease = 0.01;
-
-    return this.speed -= decrease;
+    return this.speed -= negate(DECREASE_SPEED_RATE);
   }
 
   @Override
   public void end(boolean interrupted) {
-    this.drivetrain.arcadeDrive(Arcade.fullSpeed(), Arcade.noRotation());
+    this.drivetrain.arcadeDrive(Arcade.stop(), Arcade.noRotation());
     this.drivetrain.reset();
   }
 
@@ -68,5 +67,9 @@ public class DriveReverseEncoders extends CommandBase {
 
   private double abs(double value) {
     return Math.abs(value);
+  }
+
+  private double negate(double value) {
+    return -value;
   }
 }

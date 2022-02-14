@@ -4,15 +4,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Arcade;
 
-public class TurnToAngle extends CommandBase {
+public class RotateToAngle extends CommandBase {
+
+  private static final double ANGLE_180 = 180.0;
+  private static final double ROTATION_RATE = 0.25;
+
   private final Drivetrain drivetrain;
   private double angle;
-  private double rotationRate;
 
-  public TurnToAngle(double angle, Drivetrain drivetrain) {
+  public RotateToAngle(double angle, Drivetrain drivetrain) {
     this.angle = angle;
     this.drivetrain = drivetrain;
-    this.rotationRate = 0.25;
 
     addRequirements(this.drivetrain);
   }
@@ -24,15 +26,17 @@ public class TurnToAngle extends CommandBase {
 
   @Override
   public void execute() {
-    if(this.needTurnLeft()) {
-      this.drivetrain.arcadeDrive(Arcade.noRotation(), this.rotationRate);
-    } else {
-      this.drivetrain.arcadeDrive(this.rotationRate, Arcade.noRotation());
-    }
+    this.rotateToAngle();
   }
 
-  private boolean needTurnLeft() {
-    return this.angle > 180.0;
+  private void rotateToAngle() {
+    var rotation = this.isRotateLeft() ? negate(ROTATION_RATE) : ROTATION_RATE;
+
+    this.drivetrain.arcadeDrive(Arcade.stop(), rotation);
+  }
+
+  private boolean isRotateLeft() {
+    return this.angle > ANGLE_180;
   }
 
   @Override
@@ -44,5 +48,9 @@ public class TurnToAngle extends CommandBase {
   @Override
   public boolean isFinished() {
     return (int) this.drivetrain.getAngle() == (int) this.angle;
+  }
+
+  private double negate(double value) {
+    return -value;
   }
 }
