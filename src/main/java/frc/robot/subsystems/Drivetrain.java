@@ -4,9 +4,11 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.core.components.Limelight;
 import frc.core.components.SmartNavX;
 import frc.robot.Constants.DrivetrainConstants;
 
@@ -40,7 +42,7 @@ public class Drivetrain extends SubsystemBase {
         DrivetrainConstants.encoderRightPort[1],
         DrivetrainConstants.isEcondersInverted[1]);
 
-    this.navX = new SmartNavX();    
+    this.navX = new SmartNavX();
 
     this.setEncodersDistancePerPulse();
     this.resetEncoders();
@@ -48,6 +50,14 @@ public class Drivetrain extends SubsystemBase {
 
   public void arcadeDrive(double forward, double rotation) {
     this.drive.arcadeDrive(forward, -(rotation));
+  }
+
+  public void curvatureDrive(double forward, double rotation, boolean isQuickTurn) {
+    this.drive.curvatureDrive(forward, -(rotation), isQuickTurn);
+  }
+
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    this.drive.tankDrive(leftSpeed, rightSpeed);
   }
 
   public void resetEncoders() {
@@ -93,5 +103,13 @@ public class Drivetrain extends SubsystemBase {
 
     this.encoderLeft.setDistancePerPulse(distancePerPulseLeft);
     this.encoderRight.setDistancePerPulse(distancePerPulseRight);
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("[LIMELIGHT] X-axis", Limelight.getX());
+    SmartDashboard.putNumber("[LIMELIGHT] Y-axis", Limelight.getY());
+    SmartDashboard.putNumber("[LIMELIGHT] Target Area", Limelight.getA());
+    SmartDashboard.putNumber("[LIMELIGHT] Is On Target", Limelight.getV());
   }
 }
