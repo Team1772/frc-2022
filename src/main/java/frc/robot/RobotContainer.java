@@ -12,6 +12,7 @@ import frc.robot.commands.autonsTrajectory.Test;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.CollectCargo;
 import frc.robot.commands.intake.ReleaseCargo;
+import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -20,6 +21,8 @@ public class RobotContainer {
   private Drivetrain drivetrain;
   private Intake intake;
   private final Shooter shooter;
+  private Buffer buffer;
+
   
   private TrajectoryBuilder trajectoryBuilder;
 
@@ -30,6 +33,8 @@ public class RobotContainer {
     this.drivetrain = new Drivetrain();
     this.intake = new Intake();
     this.shooter = new Shooter();
+    this.buffer = new Buffer();
+
 
     this.driver = new XboxController(OIConstants.driverControllerPort);
     this.operator = new XboxController(OIConstants.operatorControllerPort);
@@ -46,6 +51,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     this.buttonBindingsDrivetain();
     this.buttonBindingsIntake();
+    this.buttonBindingsBuffer();
+    this.buttonBindingsShooter();
   }
 
   private void buttonBindingsDrivetain() {
@@ -76,6 +83,14 @@ public class RobotContainer {
 
     buttonA.whileHeld(new ShootCargo(this.shooter));
   }
+
+  
+  private void buttonBindingsBuffer() {
+    var buttonB = new JoystickButton(this.driver, Button.kB.value);
+
+    buttonB.whileHeld(new ShootCargo(this.shooter));
+  }
+
 
   public Command getAutonomousCommand() {
     return new Test(this.trajectoryBuilder);
