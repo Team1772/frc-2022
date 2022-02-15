@@ -64,6 +64,10 @@ public class Drivetrain extends SubsystemBase {
     this.drive.feed();
   }
 
+  public void setMaxOutput(double maxOutput) {
+    this.drive.setMaxOutput(maxOutput);
+  } 
+
   public void resetEncoders() {
     this.encoderLeft.reset();
     this.encoderRight.reset();
