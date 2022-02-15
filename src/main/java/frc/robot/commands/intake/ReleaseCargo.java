@@ -14,7 +14,7 @@ public class ReleaseCargo extends CommandBase {
 
   @Override
   public void execute() {
-    this.intake.set(-1);
+    this.intake.set(-0.4);
   }
 
   @Override
