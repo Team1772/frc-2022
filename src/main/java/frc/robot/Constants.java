@@ -54,18 +54,22 @@ public final class Constants {
     }
   }
 
-    public static final class OIConstants {
-		  public static final int
-		  	driverControllerPort = 0,
-		  	operatorControllerPort = 1;
-	  }
+  public static final class OIConstants {
+    public static final int
+      driverControllerPort = 0,
+      operatorControllerPort = 1;
+  }
 
-    public static final class AutoConstants {
-      public static final double 
-        kMaxSpeedMetersPerSecond = 2,
-        kMaxAccelerationMetersPerSecondSquared = 2,
-        kRamseteB = 2,
-        kRamseteZeta = 0.7;
-    }
+  public static final class AutoConstants {
+    public static final double 
+      kMaxSpeedMetersPerSecond = 2,
+      kMaxAccelerationMetersPerSecondSquared = 2,
+      kRamseteB = 2,
+      kRamseteZeta = 0.7;
+  }
+
+  public static final class IntakeConstants {
+    public static final int	motorPort = 2;
+  }
   
 }
