@@ -4,11 +4,11 @@ public final class Constants {
   public static final class DrivetrainConstants {
     //motors
     public static final int[] 
-      motorRightPort = new int[] { 0, 1 },
-      motorLeftPort = new int[] { 2, 3 };
+      motorLeftPort = new int[] { 0, 1 },
+      motorRightPort = new int[] { 2, 3 };
 
     public static final boolean[] 
-      isMotorsInverted = new boolean[] { true, true };
+      isMotorsInverted = new boolean[] { true, false };
 
     //encoders
     public static final int[] 
