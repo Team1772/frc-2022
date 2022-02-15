@@ -5,21 +5,26 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 public final class Constants {
   public static final class DrivetrainConstants {
     //motors
-    public static final int[] 
-      motorLeftPort = new int[] { 0, 1 },
-      motorRightPort = new int[] { 2, 3 };
+    public static final int
+      motorLeftBack = 0,
+      motorLeftFront = 1,
+      motorRightBack = 2,
+      motorRightFront = 3;
 
     public static final boolean 
-      isMotorLeftInverted = true,
-      isMotorRightInverted = false;
+      isMotorsLeftInverted = true,
+      isMotorsRightInverted = false;
 
     //encoders
-    public static final int[] 
-      encoderLeftPort = new int[] { 8, 9 },
-      encoderRightPort = new int[] { 6, 7 };
+    public static final int
+      encoderRightPortOne = 6,
+      encoderRightPortTwo = 7,
+      encoderLeftPortOne = 8,
+      encoderLeftPortTwo = 9;
 
-    public static final boolean[] 
-      isEncodersInverted = new boolean[] { true, true };
+    public static final boolean
+      isEncoderLeftInverted = true,
+      isEncoderRightInverted = true;
     
     public static final int
       pulsesPerRotation = 500, 

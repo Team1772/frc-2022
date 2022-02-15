@@ -22,28 +22,28 @@ public class Drivetrain extends SubsystemBase {
   private final DifferentialDriveOdometry odometry;
 
   public Drivetrain() {
-    this.motorsRight = new MotorControllerGroup(
-        new VictorSP(DrivetrainConstants.motorRightPort[0]),
-        new VictorSP(DrivetrainConstants.motorRightPort[1]));
     this.motorsLeft = new MotorControllerGroup(
-        new VictorSP(DrivetrainConstants.motorLeftPort[0]),
-        new VictorSP(DrivetrainConstants.motorLeftPort[1]));
+        new VictorSP(DrivetrainConstants.motorLeftBack),
+        new VictorSP(DrivetrainConstants.motorLeftFront));
+    this.motorsRight = new MotorControllerGroup(
+        new VictorSP(DrivetrainConstants.motorRightBack),
+        new VictorSP(DrivetrainConstants.motorRightFront));
 
     this.setMotorsInverted(
-        DrivetrainConstants.isMotorLeftInverted,
-        DrivetrainConstants.isMotorRightInverted);
+        DrivetrainConstants.isMotorsLeftInverted,
+        DrivetrainConstants.isMotorsRightInverted);
 
     this.drive = new DifferentialDrive(this.motorsRight, this.motorsLeft);
 
     this.encoderLeft = new Encoder(
-        DrivetrainConstants.encoderLeftPort[0],
-        DrivetrainConstants.encoderLeftPort[1],
-        DrivetrainConstants.isEncodersInverted[0]);
+        DrivetrainConstants.encoderLeftPortOne,
+        DrivetrainConstants.encoderLeftPortTwo,
+        DrivetrainConstants.isEncoderLeftInverted);
 
     this.encoderRight = new Encoder(
-        DrivetrainConstants.encoderRightPort[0],
-        DrivetrainConstants.encoderRightPort[1],
-        DrivetrainConstants.isEncodersInverted[1]);
+        DrivetrainConstants.encoderRightPortOne,
+        DrivetrainConstants.encoderRightPortTwo,
+        DrivetrainConstants.isEncoderRightInverted);
 
     this.navX = new SmartNavX();
 
@@ -57,10 +57,7 @@ public class Drivetrain extends SubsystemBase {
     this.drive.arcadeDrive(forward, rotation);
   }
 
-  //the numbers are negative, just for tests
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    SmartDashboard.putNumber("left volts", leftVolts);
-    SmartDashboard.putNumber("right volts", rightVolts);
     this.motorsLeft.setVoltage(leftVolts);
     this.motorsRight.setVoltage(rightVolts);
 
