@@ -15,6 +15,33 @@ import frc.core.components.SmartNavX;
 import frc.robot.Constants.DrivetrainConstants;
 
 public class Drivetrain extends SubsystemBase {
+
+  public enum Arcade {
+    FULL_SPEED(1.0), 
+    STOP(0.0), 
+    NO_ROTATION(0.0);
+
+    public final double value;
+    Arcade(double value) {
+      this.value = value;
+    }
+
+    public double get() {
+      return this.value;
+    }
+
+    public static double fullSpeed() {
+      return FULL_SPEED.get();
+    }
+
+    public static double stop() {
+      return STOP.get();
+    }
+
+    public static double noRotation() {
+      return NO_ROTATION.get();
+    }
+  }
   private final MotorControllerGroup motorsRight, motorsLeft;
   private final DifferentialDrive drive;
   private final Encoder encoderRight, encoderLeft;
