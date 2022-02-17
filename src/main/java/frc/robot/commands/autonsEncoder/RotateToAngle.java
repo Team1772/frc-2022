@@ -1,13 +1,14 @@
 package frc.robot.commands.autonsEncoder;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.core.util.Number;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Arcade;
 
 public class RotateToAngle extends CommandBase {
 
-  private static final double ANGLE_180 = 180.0;
-  private static final double ROTATION_RATE = 0.25;
+  private static final int ZERO_NUMBER = 0;
+  private static final double ROTATION_RATE = 0.63;
 
   private final Drivetrain drivetrain;
   private double angle;
@@ -30,13 +31,25 @@ public class RotateToAngle extends CommandBase {
   }
 
   private void rotateToAngle() {
-    var rotation = this.isRotateLeft() ? negate(ROTATION_RATE) : ROTATION_RATE;
-
+    var rotation = this.isRotateRight() ? rotateRight() : rotateLeft();
+    System.out.println(this.drivetrain.getAngle());
     this.drivetrain.arcadeDrive(Arcade.stop(), rotation);
   }
 
-  private boolean isRotateLeft() {
-    return this.angle > ANGLE_180;
+  private boolean isRotateRight() {
+    return this.isAnglePositive();
+  }
+
+  private boolean isAnglePositive() {
+    return this.angle > ZERO_NUMBER;
+  }
+
+  private double rotateRight() {
+    return Number.invert(ROTATION_RATE);
+  }
+
+  private double rotateLeft() {
+    return ROTATION_RATE;    
   }
 
   @Override
@@ -47,10 +60,10 @@ public class RotateToAngle extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return (int) this.drivetrain.getAngle() == (int) this.angle;
+    return this.desiredAngle() == (int) this.angle;
   }
 
-  private double negate(double value) {
-    return -value;
+  private int desiredAngle() {
+    return (int) this.drivetrain.getAngle();
   }
 }

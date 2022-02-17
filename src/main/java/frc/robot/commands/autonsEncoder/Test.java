@@ -24,39 +24,41 @@ public class Test extends CommandBase {
 
   @Override
   public void initialize() {
-    // this.drivetrain.reset();
+    this.drivetrain.reset();
   }
 
   @Override
   public void execute() {
-    this.drivetrain.arcadeDrive(this.speed, Arcade.noRotation());
+    this.drivetrain.arcadeDrive(this.speed, 0);
+    System.out.println(this.speed);
+    System.out.println(Arcade.noRotation());
   }
 
-  private boolean isNearEnd() {
-    return this.drivetrain.getAverageDistance() + ONE_METER > this.meters;
-  }
+  // private boolean isNearEnd() {
+  //   return this.drivetrain.getAverageDistance() + ONE_METER > this.meters;
+  // }
 
-  private boolean isSpeedAtMinimum() {
-    return this.speed <= MINIMUM_SPEED;
-  }
+  // private boolean isSpeedAtMinimum() {
+  //   return this.speed <= MINIMUM_SPEED;
+  // }
 
-  private double keep() {
-    return this.speed;
-  }
+  // private double keep() {
+  //   return this.speed;
+  // }
 
-  private double decrease() {
-    return this.speed - DECREASE_SPEED_RATE;
-  }
+  // private double decrease() {
+  //   return this.speed - DECREASE_SPEED_RATE;
+  // }
 
   @Override
   public void end(boolean interrupted) {
-    // this.drivetrain.arcadeDrive(Arcade.stop(), Arcade.noRotation());
-    // this.drivetrain.reset();
+    this.drivetrain.arcadeDrive(Arcade.stop(), Arcade.noRotation());
+    this.drivetrain.reset();
+    
   }
 
   @Override
   public boolean isFinished() {
-    // return this.drivetrain.getAverageDistance() > this.meters;
-    return false;
+    return this.drivetrain.getAverageDistance() > this.meters;
   }
 }

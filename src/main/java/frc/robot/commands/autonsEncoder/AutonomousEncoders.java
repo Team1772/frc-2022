@@ -6,14 +6,17 @@ import frc.robot.subsystems.Drivetrain;
 
 public class AutonomousEncoders extends SequentialCommandGroup {
   private static final double oneMeter = 1.0;
-  private static final double speed = 0.3;
-  private static final double angle = 0;
+  private static final double twoMeters = 2.0;
+  private static final double threeMeters = 3.0;
+  private static final double fourMeters = 4.0;
+  private static final double fiveMeters = 5.0;
+  private static final double speed = 0.60;
+  private static final double angle = 100;
 
   public AutonomousEncoders(Drivetrain drivetrain) {
     super.addCommands(
-      new Test(oneMeter, speed, drivetrain)
-      // new DriveFowardEncoders(oneMeter, speed, drivetrain)
-      // new RotateToAngle(angle, drivetrain),
+      // new DriveFowardEncoders(fourMeters, speed, drivetrain)
+      new RotateToAngle(angle, drivetrain)
       // new DriveReverseEncoders(oneMeter, speed, drivetrain)
     );
   }

@@ -70,6 +70,8 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int	motorPort = 2;
+
+    public static final double speed = 0.4;
   }
   
 }

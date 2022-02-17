@@ -5,19 +5,27 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Arcade;
 
 public class DriveFowardEncoders extends CommandBase {
-  
-  private static final double DECREASE_SPEED_RATE = 0.01;
-  private static final double MINIMUM_SPEED = 0.25;
-  private static final double ONE_METER = 1.0;
+
+  private static final double INCREASE_SPEED_RATE = 0.002;
+  private static final double METERS_RAN_TO_INCREASE_SPEED = 1.5;
+
+  private static final double METERS_LEFT_TO_DECREASE_SPEED = 1.5;
+  private static final double DECREASE_SPEED_RATE = 0.002;
+
+  private static final double MINIMUM_SPEED = 0.45;
 
   private final Drivetrain drivetrain;
   private double meters;
   private double speed;
 
+  private double startSpeed;
+
   public DriveFowardEncoders(double meters, double speed, Drivetrain drivetrain) {
     this.meters = meters;
     this.speed = speed;
     this.drivetrain = drivetrain;
+    
+    this.startSpeed = MINIMUM_SPEED;
 
     addRequirements(this.drivetrain);
   }
@@ -29,17 +37,37 @@ public class DriveFowardEncoders extends CommandBase {
 
   @Override
   public void execute() {
-    if (this.isNearEnd()) {
-      var speedNearEnd =  this.isSpeedAtMinimum() ? this.keep() : this.decrease();
+    System.out.println("is starting: " + this.isStarting());
+    System.out.println("is speed at maximum: " + this.isStartSpeedAtMaximum());
+    if (this.isStarting()) {
+      var speedStarting = this.isStartSpeedAtMaximum() ? this.keep() : this.increase();
+
+      this.drivetrain.arcadeDrive(speedStarting, Arcade.noRotation());
+
+    } else if (this.isNearEnd()) {
+      System.out.println("is near end: " + this.isNearEnd());
+      var speedNearEnd = this.isSpeedAtMinimum() ? this.keep() : this.decrease();
+
+      System.out.println("is speed at minimum: " + this.isSpeedAtMinimum());
 
       this.drivetrain.arcadeDrive(speedNearEnd, Arcade.noRotation());
+      System.out.println("speed near end: " + speedNearEnd);
     } else {
       this.drivetrain.arcadeDrive(this.speed, Arcade.noRotation());
+      System.out.println("speed attribute" + this.speed);
     }
   }
 
+  private boolean isStarting() {
+    return this.drivetrain.getAverageDistance() < METERS_RAN_TO_INCREASE_SPEED;
+  }
+
   private boolean isNearEnd() {
-    return this.drivetrain.getAverageDistance() + ONE_METER > this.meters;
+    return this.drivetrain.getAverageDistance() + METERS_LEFT_TO_DECREASE_SPEED > this.meters;
+  }
+
+  private boolean isStartSpeedAtMaximum() {
+    return this.startSpeed >= speed;
   }
 
   private boolean isSpeedAtMinimum() {
@@ -50,8 +78,12 @@ public class DriveFowardEncoders extends CommandBase {
     return this.speed;
   }
 
+  private double increase() {
+    return this.startSpeed += INCREASE_SPEED_RATE;
+  }
+
   private double decrease() {
-    return this.speed - DECREASE_SPEED_RATE;
+    return this.speed -= DECREASE_SPEED_RATE;
   }
 
   @Override

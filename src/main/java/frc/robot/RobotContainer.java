@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.core.util.TrajectoryBuilder;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.autonsEncoder.AutonomousEncoders;
 import frc.robot.commands.autonsTrajectory.Test;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.CollectCargo;
@@ -45,30 +46,30 @@ public class RobotContainer {
   }
 
   private void buttonBindingsDrivetain() {
-    var RB = new JoystickButton(this.driver, Button.kRightBumper.value);
+    // var RB = new JoystickButton(this.driver, Button.kRightBumper.value);
 
-    this.drivetrain.setDefaultCommand(
-      new ArcadeDrive(
-        this.drivetrain, 
-        () -> this.driver.getLeftY(), 
-        () -> this.driver.getRightX()
-      )
-    );
+    // this.drivetrain.setDefaultCommand(
+    //   new ArcadeDrive(
+    //     this.drivetrain, 
+    //     () -> this.driver.getLeftY(), 
+    //     () -> this.driver.getRightX()
+    //   )
+    // );
 
-    RB.whenPressed(() ->  this.drivetrain.setMaxOutput(0.25));
-    RB.whenReleased(() -> this.drivetrain.setMaxOutput(1));
+    // RB.whenPressed(() ->  this.drivetrain.setMaxOutput(0.25));
+    // RB.whenReleased(() -> this.drivetrain.setMaxOutput(1));
   }
 
   private void buttonBindingsIntake() {
-    var LB = new JoystickButton(this.driver, Button.kLeftBumper.value);
-    var LT = new JoystickButton(this.driver, Axis.kLeftTrigger.value);
+    var buttonX = new JoystickButton(this.driver, Button.kX.value);
+    var buttonA = new JoystickButton(this.driver, Button.kA.value);
 
-    LB.whenPressed(new CollectCargo(this.intake));
-    LT.whenPressed(new ReleaseCargo(this.intake));
+    buttonX.whileHeld(new CollectCargo(this.intake));
+    buttonA.whileHeld(new ReleaseCargo(this.intake));
   }
 
   public Command getAutonomousCommand() {
-    return new Test(this.trajectoryBuilder);
+    return new AutonomousEncoders(this.drivetrain);
   }
 
   public void reset() {
