@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.shooter;
 
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -14,7 +14,7 @@ public class ShootCargo extends CommandBase {
 
   @Override
   public void execute() {
-    
+
     this.shooter.setSpeed(0.5);
   }
 

@@ -10,6 +10,8 @@ public class Buffer extends SubsystemBase {
 
   public Buffer() {
     this.motor = new VictorSPX(BufferConstants.motorPort);
+
+    this.motor.setInverted(true);
   }
 
   public void set(double speed) {

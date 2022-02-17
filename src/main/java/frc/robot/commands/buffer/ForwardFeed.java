@@ -14,7 +14,7 @@ public class ForwardFeed extends CommandBase {
 
   @Override
   public void execute() {
-    this.buffer.set(1);
+    this.buffer.set(0.5);
   }
 
   @Override

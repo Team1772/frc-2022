@@ -73,11 +73,11 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int	motorPort = 2;
+    public static final int	motorPort = 3;
   }
   
   public static final class BufferConstants{
-    public static final int motorPort = 0;
+    public static final int motorPort = 2;
   }
   
 }
