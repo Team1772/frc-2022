@@ -1,6 +1,7 @@
 package frc.robot.commands.autonsEncoder;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.core.util.NumberUtil;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Arcade;
 
@@ -16,7 +17,7 @@ public class DriveReverseEncoders extends CommandBase {
 
   public DriveReverseEncoders(double meters, double speed, Drivetrain drivetrain) {
     this.meters = meters;
-    this.speed = negate(speed);
+    this.speed = NumberUtil.invert(speed);
     this.drivetrain = drivetrain;
 
     addRequirements(this.drivetrain);
@@ -39,11 +40,11 @@ public class DriveReverseEncoders extends CommandBase {
   }
 
   private boolean isNearEnd() {
-    return abs(this.drivetrain.getAverageDistance()) + ONE_METER > this.meters;
+    return this.getModuleAverageDistance() + ONE_METER > this.meters;
   }
 
   private boolean isSpeedAtMinimum() {
-    return this.speed >= negate(MINIMUM_SPEED);
+    return this.speed >= NumberUtil.invert(MINIMUM_SPEED);
   }
 
   private double keep() {
@@ -51,7 +52,7 @@ public class DriveReverseEncoders extends CommandBase {
   }
 
   private double decrease() {
-    return this.speed -= negate(DECREASE_SPEED_RATE);
+    return this.speed -= NumberUtil.invert(DECREASE_SPEED_RATE);
   }
 
   @Override
@@ -62,14 +63,10 @@ public class DriveReverseEncoders extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return abs(this.drivetrain.getAverageDistance()) > this.meters;
+    return this.getModuleAverageDistance() > this.meters;
   }
 
-  private double abs(double value) {
-    return Math.abs(value);
-  }
-
-  private double negate(double value) {
-    return -value;
+  private double getModuleAverageDistance() {
+    return NumberUtil.module(this.drivetrain.getAverageDistance());
   }
 }

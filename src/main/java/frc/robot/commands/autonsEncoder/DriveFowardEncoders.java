@@ -37,24 +37,17 @@ public class DriveFowardEncoders extends CommandBase {
 
   @Override
   public void execute() {
-    System.out.println("is starting: " + this.isStarting());
-    System.out.println("is speed at maximum: " + this.isStartSpeedAtMaximum());
     if (this.isStarting()) {
       var speedStarting = this.isStartSpeedAtMaximum() ? this.keep() : this.increase();
 
       this.drivetrain.arcadeDrive(speedStarting, Arcade.noRotation());
 
     } else if (this.isNearEnd()) {
-      System.out.println("is near end: " + this.isNearEnd());
       var speedNearEnd = this.isSpeedAtMinimum() ? this.keep() : this.decrease();
 
-      System.out.println("is speed at minimum: " + this.isSpeedAtMinimum());
-
       this.drivetrain.arcadeDrive(speedNearEnd, Arcade.noRotation());
-      System.out.println("speed near end: " + speedNearEnd);
     } else {
       this.drivetrain.arcadeDrive(this.speed, Arcade.noRotation());
-      System.out.println("speed attribute" + this.speed);
     }
   }
 

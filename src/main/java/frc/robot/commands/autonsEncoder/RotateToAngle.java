@@ -1,7 +1,7 @@
 package frc.robot.commands.autonsEncoder;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.core.util.Number;
+import frc.core.util.NumberUtil;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Arcade;
 
@@ -45,7 +45,7 @@ public class RotateToAngle extends CommandBase {
   }
 
   private double rotateRight() {
-    return Number.invert(ROTATION_RATE);
+    return NumberUtil.invert(ROTATION_RATE);
   }
 
   private double rotateLeft() {
