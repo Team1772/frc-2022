@@ -42,11 +42,11 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     this.buttonBindingsDrivetain();
-    this.buttonBindingsIntake();
+    // this.buttonBindingsIntake();
   }
 
   private void buttonBindingsDrivetain() {
-    // var RB = new JoystickButton(this.driver, Button.kRightBumper.value);
+    var rightBumper = new JoystickButton(this.driver, Button.kRightBumper.value);
 
     // this.drivetrain.setDefaultCommand(
     //   new ArcadeDrive(
@@ -56,17 +56,17 @@ public class RobotContainer {
     //   )
     // );
 
-    // RB.whenPressed(() ->  this.drivetrain.setMaxOutput(0.25));
-    // RB.whenReleased(() -> this.drivetrain.setMaxOutput(1));
+    rightBumper.whenPressed(() ->  this.drivetrain.setMaxOutput(0.25));
+    rightBumper.whenReleased(() -> this.drivetrain.setMaxOutput(1));
   }
 
-  private void buttonBindingsIntake() {
-    var buttonX = new JoystickButton(this.driver, Button.kX.value);
-    var buttonA = new JoystickButton(this.driver, Button.kA.value);
+  // private void buttonBindingsIntake() {
+  //   var leftBumper = new JoystickButton(this.driver, Button.kLeftBumper.value);
+  //   var leftTrigger = new JoystickButton(this.driver, Axis.kLeftTrigger.value);
 
-    buttonX.whileHeld(new CollectCargo(this.intake));
-    buttonA.whileHeld(new ReleaseCargo(this.intake));
-  }
+  //   leftBumper.whenPressed(new CollectCargo(this.intake));
+  //   leftTrigger.whenPressed(new ReleaseCargo(this.intake));
+  // }
 
   public Command getAutonomousCommand() {
     return new AutonomousEncoders(this.drivetrain);
