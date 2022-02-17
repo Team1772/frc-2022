@@ -42,7 +42,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     this.buttonBindingsDrivetain();
-    // this.buttonBindingsIntake();
+    this.buttonBindingsIntake();
   }
 
   private void buttonBindingsDrivetain() {
@@ -60,13 +60,13 @@ public class RobotContainer {
     rightBumper.whenReleased(() -> this.drivetrain.setMaxOutput(1));
   }
 
-  // private void buttonBindingsIntake() {
-  //   var leftBumper = new JoystickButton(this.driver, Button.kLeftBumper.value);
-  //   var leftTrigger = new JoystickButton(this.driver, Axis.kLeftTrigger.value);
+  private void buttonBindingsIntake() {
+    var buttonA = new JoystickButton(this.driver, Button.kA.value);
+    var buttonX = new JoystickButton(this.driver, Button.kX.value);
 
-  //   leftBumper.whenPressed(new CollectCargo(this.intake));
-  //   leftTrigger.whenPressed(new ReleaseCargo(this.intake));
-  // }
+    buttonA.whileHeld(new CollectCargo(this.intake));
+    buttonX.whileHeld(new ReleaseCargo(this.intake));
+  }
 
   public Command getAutonomousCommand() {
     return new AutonomousEncoders(this.drivetrain);
