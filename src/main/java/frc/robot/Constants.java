@@ -54,6 +54,10 @@ public final class Constants {
     }
   }
 
+  public static final class ShooterConstants {
+    public static final int motorPort = 1;
+}
+
   public static final class OIConstants {
     public static final int
       driverControllerPort = 0,
@@ -72,6 +76,10 @@ public final class Constants {
     public static final int	motorPort = 2;
 
     public static final double speed = 0.6;
+  }
+  
+  public static final class BufferConstants{
+    public static final int motorPort = 3;
   }
   
 }
