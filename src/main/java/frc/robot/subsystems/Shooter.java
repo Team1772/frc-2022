@@ -10,6 +10,7 @@ public class Shooter extends SubsystemBase {
 
   public Shooter() {
     this.motor = new TalonSRX(Constants.ShooterConstants.motorPort);
+    this.motor.setInverted(true);
   }
 
   public void setSpeed(double speed){
