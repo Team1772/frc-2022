@@ -48,13 +48,13 @@ public class RobotContainer {
   private void buttonBindingsDrivetain() {
     var rightBumper = new JoystickButton(this.driver, Button.kRightBumper.value);
 
-    // this.drivetrain.setDefaultCommand(
-    //   new ArcadeDrive(
-    //     this.drivetrain, 
-    //     () -> this.driver.getLeftY(), 
-    //     () -> this.driver.getRightX()
-    //   )
-    // );
+    this.drivetrain.setDefaultCommand(
+      new ArcadeDrive(
+        this.drivetrain, 
+        () -> -this.driver.getLeftY(), 
+        () -> -this.driver.getRightX()
+      )
+    );
 
     rightBumper.whenPressed(() ->  this.drivetrain.setMaxOutput(0.25));
     rightBumper.whenReleased(() -> this.drivetrain.setMaxOutput(1));

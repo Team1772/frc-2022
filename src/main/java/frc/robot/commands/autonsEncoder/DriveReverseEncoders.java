@@ -6,20 +6,27 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Arcade;
 
 public class DriveReverseEncoders extends CommandBase {
+  private static final double INCREASE_SPEED_RATE = 0.002;
+  private static final double METERS_RAN_TO_INCREASE_SPEED = 1.5;
 
-  private static final double DECREASE_SPEED_RATE = 0.01;
-  private static final double MINIMUM_SPEED = 0.25;
-  private static final double ONE_METER = 1.0;
+  private static final double METERS_LEFT_TO_DECREASE_SPEED = 1.5;
+  private static final double DECREASE_SPEED_RATE = 0.002;
 
+  private static final double MINIMUM_SPEED = 0.45;
+
+  
   private final Drivetrain drivetrain;
   private double meters;
   private double speed;
+  
+  private double startSpeed;
 
   public DriveReverseEncoders(double meters, double speed, Drivetrain drivetrain) {
     this.meters = meters;
     this.speed = NumberUtil.invert(speed);
     this.drivetrain = drivetrain;
 
+    this.startSpeed = NumberUtil.invert(MINIMUM_SPEED);
     addRequirements(this.drivetrain);
   }
 
@@ -30,8 +37,13 @@ public class DriveReverseEncoders extends CommandBase {
 
   @Override
   public void execute() {
-    if (this.isNearEnd()) {
-      var speedNearEnd =  this.isSpeedAtMinimum() ? this.keep() : this.decrease();
+    if (this.isStarting()) {
+      var speedStarting = this.isStartSpeedAtMaximum() ? this.keep() : this.increase();
+
+      this.drivetrain.arcadeDrive(speedStarting, Arcade.noRotation());
+
+    } else if (this.isNearEnd()) {
+      var speedNearEnd = this.isSpeedAtMinimum() ? this.keep() : this.decrease();
 
       this.drivetrain.arcadeDrive(speedNearEnd, Arcade.noRotation());
     } else {
@@ -39,8 +51,16 @@ public class DriveReverseEncoders extends CommandBase {
     }
   }
 
+  private boolean isStarting() {
+    return this.getModuleAverageDistance() < METERS_RAN_TO_INCREASE_SPEED;
+  }
+
   private boolean isNearEnd() {
-    return this.getModuleAverageDistance() + ONE_METER > this.meters;
+    return this.getModuleAverageDistance() + METERS_LEFT_TO_DECREASE_SPEED > this.meters;
+  }
+
+  private boolean isStartSpeedAtMaximum() {
+    return this.startSpeed >= speed;
   }
 
   private boolean isSpeedAtMinimum() {
@@ -51,8 +71,12 @@ public class DriveReverseEncoders extends CommandBase {
     return this.speed;
   }
 
+  private double increase() {
+    return this.startSpeed += INCREASE_SPEED_RATE;
+  }
+
   private double decrease() {
-    return this.speed -= NumberUtil.invert(DECREASE_SPEED_RATE);
+    return this.speed += DECREASE_SPEED_RATE;
   }
 
   @Override
