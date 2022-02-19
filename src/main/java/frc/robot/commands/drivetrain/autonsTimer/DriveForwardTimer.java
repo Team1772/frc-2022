@@ -31,15 +31,15 @@ public class DriveForwardTimer extends CommandBase {
   public void execute() {
     this.drivetrain.arcadeDrive(speed, 0.0);
   }
+  
+  @Override
+  public boolean isFinished() {
+    return this.timer.get() > secs;
+  }
 
   @Override
   public void end(boolean interrupted) {
     this.drivetrain.arcadeDrive(Arcade.stop(), Arcade.noRotation());
     timer.reset();
-  }
-
-  @Override
-  public boolean isFinished() {
-    return this.timer.get() > secs;
   }
 }
