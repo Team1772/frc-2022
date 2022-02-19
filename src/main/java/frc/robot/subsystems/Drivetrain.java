@@ -157,6 +157,10 @@ public class Drivetrain extends SubsystemBase {
     return this.encoderRight;
   }
 
+  public double getHeading() {
+    return this.navX.getRotation2d().getDegrees();
+  }
+
   public void setMotorsInverted(boolean isMotorsLeftInverted, boolean isMotorsRightInverted) {
     this.motorsLeft.setInverted(isMotorsLeftInverted);
     this.motorsRight.setInverted(isMotorsRightInverted);

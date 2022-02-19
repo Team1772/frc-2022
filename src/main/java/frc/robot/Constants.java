@@ -49,7 +49,17 @@ public final class Constants {
       public static final double 
         kPDriveVelocity = 3.8848,
         kIDriveVelocity = 0,
-        kDDriveVelocity = 0;   
+        kDDriveVelocity = 0;
+
+        public static final double kTurnP = 1;
+        public static final double kTurnI = 0;
+        public static final double kTurnD = 0;
+    
+        public static final double kMaxTurnRateDegPerS = 100;
+        public static final double kMaxTurnAccelerationDegPerSSquared = 300;
+    
+        public static final double kTurnToleranceDeg = 5;
+        public static final double kTurnRateToleranceDegPerS = 10;
       
     }
   }
