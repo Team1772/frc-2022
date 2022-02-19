@@ -60,7 +60,11 @@ public class RotateToAngle extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return this.desiredAngle() == (int) this.angle;
+    var desiredAngle = isRotateRight() ? 
+    this.desiredAngle() >= this.angle : 
+    this.desiredAngle() <= this.angle; 
+
+  return desiredAngle;
   }
 
   private int desiredAngle() {
