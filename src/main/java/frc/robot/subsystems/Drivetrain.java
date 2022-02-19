@@ -85,6 +85,10 @@ public class Drivetrain extends SubsystemBase {
     this.drive.arcadeDrive(forward, rotation);
   }
 
+  public void tankDrive(double left, double right) {
+    this.drive.tankDrive(left, right);
+  }
+
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     this.motorsLeft.setVoltage(leftVolts);
     this.motorsRight.setVoltage(rightVolts);
@@ -109,9 +113,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getAverageDistance() {
-    var averageDistance = (this.encoderLeft.getDistance() + this.encoderRight.getDistance()) / 2.0;
-    
-    return averageDistance;
+    return (this.encoderLeft.getDistance() + this.encoderRight.getDistance()) / 2.0;
   }
 
   public void resetNavX() {
