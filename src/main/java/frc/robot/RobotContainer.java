@@ -12,6 +12,7 @@ import frc.robot.commands.autonsTrajectory.Test;
 import frc.robot.commands.buffer.ForwardFeed;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.CollectCargo;
+import frc.robot.commands.intake.MatchColors;
 import frc.robot.commands.intake.ReleaseCargo;
 import frc.robot.commands.shooter.ShootCargo;
 import frc.robot.subsystems.Buffer;
@@ -72,13 +73,15 @@ public class RobotContainer {
     // rightBumper.whenReleased(() -> this.drivetrain.setMaxOutput(1));
   }
 
-  // private void buttonBindingsIntake() {
-  //   var LB = new JoystickButton(this.driver, Button.kLeftBumper.value);
-  //   var LT = new JoystickButton(this.driver, Axis.kLeftTrigger.value);
+  private void buttonBindingsIntake() {
+    var leftBumper = new JoystickButton(this.driver, Button.kLeftBumper.value);
+    var leftTrigger = new JoystickButton(this.driver, Axis.kLeftTrigger.value);
+    var buttonY = new JoystickButton(this.driver, Button.kY.value);
 
-  //   LB.whenPressed(new CollectCargo(this.intake));
-  //   LT.whenPressed(new ReleaseCargo(this.intake));
-  // }
+    leftBumper.whileHeld(new CollectCargo(this.intake));
+    leftTrigger.whileHeld(new ReleaseCargo(this.intake));
+    buttonY.whileHeld(new MatchColors());
+  }
 
   private void buttonBindingsShooter() {
     var buttonA = new JoystickButton(this.driver, Button.kA.value);

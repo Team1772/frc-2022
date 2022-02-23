@@ -73,9 +73,13 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int	motorPort = 2;
+    public static final int	
+      motorPort = 2,
+      infraredSensorPort = 5;
 
     public static final double speed = 0.6;
+
+
   }
   
   public static final class BufferConstants{
