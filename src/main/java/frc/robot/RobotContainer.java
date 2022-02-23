@@ -52,7 +52,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     this.buttonBindingsDrivetain();
-    // this.buttonBindingsIntake();
+    this.buttonBindingsIntake();
     this.buttonBindingsBuffer();
     this.buttonBindingsShooter();
   }
@@ -60,25 +60,23 @@ public class RobotContainer {
   private void buttonBindingsDrivetain() {
     var rightBumper = new JoystickButton(this.driver, Button.kRightBumper.value);
 
-    // this.drivetrain.setDefaultCommand(
-    //   new ArcadeDrive(
-    //     this.drivetrain, 
-    //     () -> this.driver.getLeftY(), 
-    //     () -> this.driver.getRightX()
-    //   )
-    // );
+    this.drivetrain.setDefaultCommand(
+      new ArcadeDrive(
+        this.drivetrain, 
+        () -> this.driver.getLeftY(), 
+        () -> this.driver.getRightX()
+      )
+    );
 
     // rightBumper.whenPressed(() ->  this.drivetrain.setMaxOutput(0.25));
     // rightBumper.whenReleased(() -> this.drivetrain.setMaxOutput(1));
   }
 
-  // private void buttonBindingsIntake() {
-  //   var LB = new JoystickButton(this.driver, Button.kLeftBumper.value);
-  //   var LT = new JoystickButton(this.driver, Axis.kLeftTrigger.value);
+  private void buttonBindingsIntake() {
+    var LB = new JoystickButton(this.driver, Button.kLeftBumper.value);
 
-  //   LB.whenPressed(new CollectCargo(this.intake));
-  //   LT.whenPressed(new ReleaseCargo(this.intake));
-  // }
+    LB.whileHeld(new CollectCargo(this.intake));
+  }
 
   private void buttonBindingsShooter() {
     var buttonA = new JoystickButton(this.driver, Button.kA.value);

@@ -12,8 +12,8 @@ public final class Constants {
       motorRightFront = 3;
 
     public static final boolean 
-      isMotorsLeftInverted = true,
-      isMotorsRightInverted = false;
+      isMotorsLeftInverted = false,
+      isMotorsRightInverted = true;
 
     //encoders
     public static final int
