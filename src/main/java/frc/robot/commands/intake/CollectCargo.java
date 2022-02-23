@@ -14,6 +14,11 @@ public class CollectCargo extends CommandBase {
   }
 
   @Override
+  public void initialize() {
+    new RejectOtherAllianceCargo(this.intake);
+  }
+
+  @Override
   public void execute() {
     this.intake.set(IntakeConstants.speed);
   }
