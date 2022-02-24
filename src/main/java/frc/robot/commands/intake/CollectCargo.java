@@ -14,9 +14,7 @@ public class CollectCargo extends CommandBase {
   }
 
   @Override
-  public void initialize() {
-    new RejectOtherAllianceCargo(this.intake);
-  }
+  public void initialize() {}
 
   @Override
   public void execute() {

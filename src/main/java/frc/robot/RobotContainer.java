@@ -10,10 +10,14 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.autonsEncoder.AutonomousEncoders;
 import frc.robot.commands.autonsTrajectory.Test;
 import frc.robot.commands.buffer.ForwardFeed;
+import frc.robot.commands.buffer.ReleaseFeed;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.CollectCargo;
 import frc.robot.commands.intake.MatchColors;
+import frc.robot.commands.intake.ReadRGBValues;
 import frc.robot.commands.intake.ReleaseCargo;
+import frc.robot.commands.intake.SmartIntake;
+import frc.robot.commands.shooter.PullCargo;
 import frc.robot.commands.shooter.ShootCargo;
 import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Drivetrain;
@@ -53,7 +57,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     this.buttonBindingsDrivetain();
-    // this.buttonBindingsIntake();
+    this.buttonBindingsIntake();
     this.buttonBindingsBuffer();
     this.buttonBindingsShooter();
   }
@@ -61,39 +65,41 @@ public class RobotContainer {
   private void buttonBindingsDrivetain() {
     var rightBumper = new JoystickButton(this.driver, Button.kRightBumper.value);
 
-    // this.drivetrain.setDefaultCommand(
-    //   new ArcadeDrive(
-    //     this.drivetrain, 
-    //     () -> this.driver.getLeftY(), 
-    //     () -> this.driver.getRightX()
-    //   )
-    // );
+    this.drivetrain.setDefaultCommand(
+      new ArcadeDrive(
+        this.drivetrain, 
+        () -> this.driver.getLeftY(), 
+        () -> this.driver.getRightX()
+      )
+    );
 
-    // rightBumper.whenPressed(() ->  this.drivetrain.setMaxOutput(0.25));
-    // rightBumper.whenReleased(() -> this.drivetrain.setMaxOutput(1));
+    rightBumper.whenPressed(() ->  this.drivetrain.setMaxOutput(0.25));
+    rightBumper.whenReleased(() -> this.drivetrain.setMaxOutput(1));
   }
 
   private void buttonBindingsIntake() {
-    var leftBumper = new JoystickButton(this.driver, Button.kLeftBumper.value);
-    var leftTrigger = new JoystickButton(this.driver, Axis.kLeftTrigger.value);
-    var buttonY = new JoystickButton(this.driver, Button.kY.value);
+    var leftBumper = new JoystickButton(this.operator, Button.kLeftBumper.value);
+    var buttonX = new JoystickButton(this.operator, Button.kX.value);
 
     leftBumper.whileHeld(new CollectCargo(this.intake));
-    leftTrigger.whileHeld(new ReleaseCargo(this.intake));
-    buttonY.whileHeld(new MatchColors());
+    buttonX.whileHeld(new ReleaseCargo(this.intake));
   }
 
   private void buttonBindingsShooter() {
-    var buttonA = new JoystickButton(this.driver, Button.kA.value);
-
+    var buttonA = new JoystickButton(this.operator, Button.kA.value);
+    var buttonX = new JoystickButton(this.operator, Button.kX.value);
+                                                       
     buttonA.whileHeld(new ShootCargo(this.shooter));
+    buttonX.whileHeld(new PullCargo(this.shooter));
   }
 
   
   private void buttonBindingsBuffer() {
-    var buttonB = new JoystickButton(this.driver, Button.kB.value);
+    var rightBumper = new JoystickButton(this.operator, Button.kRightBumper.value);
+    var buttonX = new JoystickButton(this.operator, Button.kX.value);
 
-    buttonB.whileHeld(new ForwardFeed(this.buffer));
+    rightBumper.whileHeld(new ForwardFeed(this.buffer));
+    buttonX.whileHeld(new ReleaseFeed(this.buffer));
   }
 
 

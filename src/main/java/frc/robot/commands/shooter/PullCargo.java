@@ -1,5 +1,7 @@
 package frc.robot.commands.shooter;
 
+import frc.core.util.NumberUtil;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -14,7 +16,7 @@ public class PullCargo extends CommandBase {
 
   @Override
   public void execute() {
-    this.shooter.setSpeed(-1);
+    this.shooter.setSpeed(NumberUtil.invert(0.5));
   }
 
   @Override

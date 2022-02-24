@@ -12,8 +12,8 @@ public final class Constants {
       motorRightFront = 3;
 
     public static final boolean 
-      isMotorsLeftInverted = true,
-      isMotorsRightInverted = false;
+      isMotorsLeftInverted = false,
+      isMotorsRightInverted = true;
 
     //encoders
     public static final int
@@ -54,10 +54,6 @@ public final class Constants {
     }
   }
 
-  public static final class ShooterConstants {
-    public static final int motorPort = 1;
-}
-
   public static final class OIConstants {
     public static final int
       driverControllerPort = 0,
@@ -72,18 +68,30 @@ public final class Constants {
       kRamseteZeta = 0.7;
   }
 
+  public static final class ShooterConstants {
+    public static final int motorPort = 1;
+
+    public static final double speed = 0.52;
+    public static final boolean isInverted = true;
+  }
+
   public static final class IntakeConstants {
     public static final int	
       motorPort = 2,
       infraredSensorPort = 5;
 
-    public static final double speed = 0.6;
-
+    public static final double speed = 0.5;
+    public static final boolean isInverted = true;
 
   }
   
-  public static final class BufferConstants{
-    public static final int motorPort = 3;
+  public static final class BufferConstants {
+    public static final int 
+      motorPort = 3,
+      infraredSensorPort = 5;
+
+    public static final double speed = 0.35;
+    public static final boolean isInverted = false;
   }
   
 }

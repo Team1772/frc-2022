@@ -10,6 +10,7 @@ public class Intake extends SubsystemBase {
 
   public Intake() {
     this.motor = new VictorSPX(IntakeConstants.motorPort);
+    this.motor.setInverted(IntakeConstants.isInverted);
   }
 
   public void set(double speed) {

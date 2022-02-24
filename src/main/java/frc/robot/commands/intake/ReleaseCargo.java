@@ -16,7 +16,7 @@ public class ReleaseCargo extends CommandBase {
 
   @Override
   public void execute() {
-    this.intake.set(NumberUtil.invert(IntakeConstants.speed));
+    this.intake.set(NumberUtil.invert(0.4));
   }
 
   @Override

@@ -1,5 +1,7 @@
 package frc.robot.commands.buffer;
 
+import frc.core.util.NumberUtil;
+import frc.robot.Constants.BufferConstants;
 import frc.robot.subsystems.Buffer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -14,7 +16,7 @@ public class ReleaseFeed extends CommandBase {
 
   @Override
   public void execute() {
-    this.buffer.set(-1);
+    this.buffer.set(NumberUtil.invert(BufferConstants.speed));
   }
 
   @Override
