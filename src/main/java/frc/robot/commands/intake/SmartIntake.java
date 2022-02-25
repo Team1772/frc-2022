@@ -55,8 +55,6 @@ public class SmartIntake extends CommandBase{
     }
   }
 
-
-
   private boolean isCollectedCargoBlue() {
     return isDetectedColorBlue();
   }
