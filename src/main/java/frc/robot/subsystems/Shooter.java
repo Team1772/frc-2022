@@ -14,7 +14,7 @@ public class Shooter extends SubsystemBase {
     this.motor.setInverted(ShooterConstants.isInverted);
   }
 
-  public void setSpeed(double speed){
+  public void set(double speed){
     this.motor.set(ControlMode.PercentOutput, speed);
   }
 

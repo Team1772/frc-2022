@@ -16,7 +16,7 @@ public class ShootCargo extends CommandBase {
   @Override
   public void execute() {
 
-    this.shooter.setSpeed(ShooterConstants.speed);
+    this.shooter.set(ShooterConstants.speed);
   }
 
   @Override

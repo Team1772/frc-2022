@@ -80,7 +80,7 @@ public final class Constants {
       motorPort = 2,
       infraredSensorPort = 5;
 
-    public static final double speed = 0.5;
+    public static final double speed = 0.6;
     public static final boolean isInverted = true;
 
   }
@@ -88,9 +88,10 @@ public final class Constants {
   public static final class BufferConstants {
     public static final int 
       motorPort = 3,
-      infraredSensorPort = 5;
+      infraredSensorBottomPort = 5,
+      infraredSensorTopPort = 4;
 
-    public static final double speed = 0.35;
+    public static final double speed = 0.4;
     public static final boolean isInverted = false;
   }
   

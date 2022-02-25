@@ -16,7 +16,7 @@ public class PullCargo extends CommandBase {
 
   @Override
   public void execute() {
-    this.shooter.setSpeed(NumberUtil.invert(0.5));
+    this.shooter.set(NumberUtil.invert(0.5));
   }
 
   @Override
