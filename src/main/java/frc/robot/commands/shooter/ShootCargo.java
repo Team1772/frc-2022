@@ -1,12 +1,13 @@
-package frc.robot.commands;
+package frc.robot.commands.shooter;
 
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class PullCargo extends CommandBase {
+public class ShootCargo extends CommandBase {
   private final Shooter shooter;
 
-  public PullCargo(Shooter shooter) {
+  public ShootCargo(Shooter shooter) {
     this.shooter = shooter;
     
     addRequirements(this.shooter);
@@ -14,7 +15,7 @@ public class PullCargo extends CommandBase {
 
   @Override
   public void execute() {
-    this.shooter.set(-1);
+    this.shooter.setVelocityMetersPerSecond(0);
   }
 
   @Override

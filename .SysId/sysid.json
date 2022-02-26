@@ -1,0 +1,16 @@
+{
+  "SysId": {
+    "Analysis Type": "General Mechanism",
+    "AnalyzerJSONLocation": "C:\\Users\\FRC1772\\Desktop\\Prog\\2022\\SysId\\sysid_data20220205-181124.json",
+    "NetworkTables Settings": {
+      "serverTeam": "1772"
+    },
+    "Program Log": {
+      "window": {
+        "visible": false
+      }
+    },
+    "mode": "Client",
+    "serverTeam": "1772"
+  }
+}
