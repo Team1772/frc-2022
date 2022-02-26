@@ -105,8 +105,6 @@ public class TrajectoryBuilder {
 			this.concatenate(trajectories) : 
       		trajectories.get(FIRST_TRAJECTORY_INDEX);
 
-		System.out.println(trajectories.size());
-
 		this.createRamsete(trajectory, updateOdometry);
 
     return this.getRamsete().andThen(

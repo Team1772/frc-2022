@@ -44,7 +44,8 @@ public class RobotContainer {
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
       "testAuto1",
-      "testAuto2"
+      "testAuto2",
+      "test"
     );
 
     configureButtonBindings();
@@ -60,13 +61,13 @@ public class RobotContainer {
   private void buttonBindingsDrivetain() {
     var rightBumper = new JoystickButton(this.driver, Button.kRightBumper.value);
 
-    // this.drivetrain.setDefaultCommand(
-    //   new ArcadeDrive(
-    //     this.drivetrain, 
-    //     () -> this.driver.getLeftY(), 
-    //     () -> this.driver.getRightX()
-    //   )
-    // );
+    this.drivetrain.setDefaultCommand(
+      new ArcadeDrive(
+        this.drivetrain, 
+        () -> -this.driver.getLeftY(), 
+        () -> this.driver.getRightX()
+      )
+    );
 
     // rightBumper.whenPressed(() ->  this.drivetrain.setMaxOutput(0.25));
     // rightBumper.whenReleased(() -> this.drivetrain.setMaxOutput(1));
@@ -95,7 +96,7 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    return new AutonomousEncoders(this.drivetrain);
+    return new Test(trajectoryBuilder, this.buffer);
   }
 
   public void reset() {
