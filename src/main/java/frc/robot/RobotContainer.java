@@ -80,9 +80,12 @@ public class RobotContainer {
   private void buttonBindingsBuffer() {
     var rightBumper = new JoystickButton(this.operator, Button.kRightBumper.value);
     var buttonX = new JoystickButton(this.operator, Button.kX.value);
+    var buttonB = new JoystickButton(this.operator, Button.kB.value);
+
 
     rightBumper.whileHeld(new ForwardFeed(this.buffer));
     buttonX.whileHeld(new RollbackToShoot(this.intake, this.buffer, this.shooter));
+    buttonB.whileHeld(new ForwardFeed(this.buffer));
   }
 
   public Command getAutonomousCommand() {

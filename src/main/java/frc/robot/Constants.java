@@ -71,7 +71,7 @@ public final class Constants {
   public static final class ShooterConstants {
     public static final int motorPort = 1;
 
-    public static final double speed = 0.52;
+    public static final double speed = 0.5;
     public static final boolean isInverted = true;
   }
 
