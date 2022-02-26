@@ -19,7 +19,7 @@ public class RollbackToShoot extends ParallelCommandGroup {
     this.shooter = shooter;
 
     super.addCommands(
-      new ReleaseCargo(intake),
+      // new ReleaseCargo(intake),
       new ReleaseFeed(buffer),
       new PullCargo(shooter)
     );
