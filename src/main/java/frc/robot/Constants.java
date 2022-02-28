@@ -95,12 +95,12 @@ public final class Constants {
 
     public static final class PID {
       public static final double 
-        kPVelocity = 0,
-        kIVelocity = 0,
-        kDVelocity = 0,
-        kFVelocity = 0,
-        kPeakOutputVelocity = 0,
-        dutyCycle = 0;
+        kPVelocity = 1.3,
+        kIVelocity = 0.001,
+        kDVelocity = 60,
+        kFVelocity = 0.0341,
+        kPeakOutputVelocity = 1,
+        dutyCycle = 0.8;
 
       public static final int kIZoneVelocity = 0;
     }

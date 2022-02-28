@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.core.util.pid.Gains;
 import frc.core.util.pid.TalonVelocity;
@@ -58,5 +60,7 @@ public class Shooter extends SubsystemBase {
   }
 
 	@Override
-	public void periodic() {}
+	public void periodic() {
+		SmartDashboard.putNumber("error", shooterPID.getClosedLoopError());
+	}
 }

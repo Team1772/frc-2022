@@ -88,4 +88,8 @@ public class TalonVelocity extends PIDTalon {
   public boolean atSettedVelocity() {
     return super.master.getSelectedSensorVelocity() >= this.velocityUnitsPer100ms;
   }
+
+  public double getClosedLoopError() {
+    return super.getClosedLoopError();
+  }
 }
