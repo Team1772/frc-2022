@@ -53,5 +53,6 @@ public class Buffer extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("IR Bottom", this.isInfraredBottomOn());
     SmartDashboard.putBoolean("IR Top", this.isInfraredTopOn());
+    SmartDashboard.putBoolean("is Cargo Ready", this.isAllInfraredsOff());
   }
 }

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.core.util.TrajectoryBuilder;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.autonsEncoder.AutonomousEncoders;
@@ -11,7 +12,7 @@ import frc.robot.commands.buffer.ForwardFeed;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.SmartFeed;
-
+import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShootCargo;
 import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Drivetrain;
@@ -71,10 +72,18 @@ public class RobotContainer {
     leftBumper.whileHeld(new SmartFeed(intake, buffer));
   }
 
+  private boolean isShooting = false;
+
   private void buttonBindingsShooter() {
-    var buttonA = new JoystickButton(this.operator, Button.kA.value);
+    var buttonBumperRight = new JoystickButton(this.operator, Button.kRightBumper.value);
+
+    Trigger isAtSettedVelocity = new Trigger(() -> this.shooter.atSettedVelocity());
+
+    Trigger isCargosReady = new Trigger(() -> 
+      this.buffer.isAllInfraredsOff());
+    
+    buttonBumperRight.whileHeld(new Shoot(this.intake, this.buffer, this.shooter));
                                                        
-    buttonA.whileHeld(new ShootCargo(this.shooter));
   }
 
   private void buttonBindingsBuffer() {
@@ -83,7 +92,7 @@ public class RobotContainer {
     var buttonB = new JoystickButton(this.operator, Button.kB.value);
 
 
-    rightBumper.whileHeld(new ForwardFeed(this.buffer));
+    // rightBumper.whileHeld(new ForwardFeed(this.buffer));
     buttonX.whileHeld(new RollbackToShoot(this.intake, this.buffer, this.shooter));
     buttonB.whileHeld(new ForwardFeed(this.buffer));
   }

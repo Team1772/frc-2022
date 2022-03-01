@@ -4,16 +4,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 public final class Constants {
 
-  public static final class PIDTalonConstants {
-    public static final boolean isSensorPhase = true;
-
-    public static final int kPIDLoopIdx = 0,
-      kTimeoutMs = 0,
-      nominalOutputForwardValue = 1,
-      nominalOutputReverseValue = -1,
-      peakOutputForwardValue = 1,
-      peakOutputReverseValue = -1;
-  }
   public static final class DrivetrainConstants {
     //motors
     public static final int
@@ -87,7 +77,9 @@ public final class Constants {
 
     public static final double wheelRadius = 0.1016;
 
-    public static final int maxRPM = 6232;
+    public static final int
+      maxRPM = 6232,
+      kSensorUnitsPerRotation = 4096;
 
     public static final boolean 
       isMotorInverted = true,
@@ -95,15 +87,26 @@ public final class Constants {
 
     public static final class PID {
       public static final double 
-        kPVelocity = 1.3,
-        kIVelocity = 0.001,
-        kDVelocity = 60,
+        kPVelocity = 0.8,
+        kIVelocity = 0,
+        kDVelocity = 8,
         kFVelocity = 0.0341,
         kPeakOutputVelocity = 1,
         dutyCycle = 0.8;
 
       public static final int kIZoneVelocity = 0;
     }
+  }
+
+  public static final class PIDTalonConstants {
+    public static final boolean isSensorPhase = true;
+
+    public static final int kPIDLoopIdx = 0,
+      kTimeoutMs = 30,
+      nominalOutputForwardValue = 0,
+      nominalOutputReverseValue = 0,
+      peakOutputForwardValue = 1,
+      peakOutputReverseValue = -1;
   }
 
   public static final class IntakeConstants {

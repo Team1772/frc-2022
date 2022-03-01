@@ -15,7 +15,7 @@ public class ShootCargo extends CommandBase {
 
   @Override
   public void execute() {
-    this.shooter.setVelocityMetersPerSecond(0);
+    this.shooter.setVelocityMetersPerSecond(25);
   }
 
   @Override

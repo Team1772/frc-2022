@@ -1,48 +1,85 @@
 package frc.core.util.pid;
 
+import static frc.core.util.function.For.forWithCounter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.PIDTalonConstants;
 
-public class PIDTalon {
-  protected TalonSRX master;
+public abstract class PIDTalon {
+	protected WPI_TalonSRX master;
+	protected List<WPI_TalonSRX> followers;
 
-  public PIDTalon(
-    TalonSRX master,
-    boolean isMasterInverted,
-    boolean isSensorPhase,
-    double nominalOutputForwardValue,
-    double nominalOutputReverseValue,
-    double peakOutputForwardValue,
-    double peakOutputReverseValue,
-    Gains gains) {
-  this.master = master;
+	public PIDTalon(
+		WPI_TalonSRX master, 
+		boolean isMasterInverted, 
+		boolean isFollowersInverted, 
+		boolean isSensorPhase,
+		double nominalOutputForwardValue, 
+		double nominalOutputReverseValue, 
+		double peakOutputForwardValue,	
+		double peakOutputReverseValue, 
+		Gains gains, 
+		WPI_TalonSRX... followers
+	) {
+		this.master = master;
+		this.followers = new ArrayList<>();
 
-  this.configFactoryDefault();
-  this.configSelectedFeedbackSensor();
-  this.setSensorPhase(isSensorPhase);
-  this.setMasterInverted(isMasterInverted);
+    if (followers.length > 0) {
+		  this.followers = Arrays.stream(followers).collect(Collectors.toList());
+      this.setFollowersInverted(isFollowersInverted);
+      this.configMasterToFollowers();
+    }
+		
+		this.configFactoryDefault();
+		this.configSelectedFeedbackSensor();
+		this.setSensorPhase(isSensorPhase);
+		
+		
+		this.setMasterInverted(isMasterInverted);
 
-  this.setOutputs(
-    nominalOutputForwardValue,
-    nominalOutputReverseValue,
-    peakOutputForwardValue,
-    peakOutputReverseValue);
-  this.setPIDValues(gains);
-  }
+		this.setOutputs(
+			nominalOutputForwardValue, 
+			nominalOutputReverseValue, 
+			peakOutputForwardValue,
+			peakOutputReverseValue
+		);
+		this.setPIDValues(gains);
+	}
 
-  private void configSelectedFeedbackSensor() {
-    this.master.configSelectedFeedbackSensor(
-      FeedbackDevice.CTRE_MagEncoder_Relative,
-      PIDTalonConstants.kPIDLoopIdx,
-      PIDTalonConstants.kTimeoutMs);
-  }
+	private void configSelectedFeedbackSensor() {
+		this.master.configSelectedFeedbackSensor(
+			FeedbackDevice.CTRE_MagEncoder_Relative,
+			PIDTalonConstants.kPIDLoopIdx,
+			PIDTalonConstants.kTimeoutMs
+		);
+	}
 
-  public void setMasterInverted(boolean isInverted) {
-    this.master.setInverted(isInverted);
-  }
+	public void setMasterInverted(boolean isInverted) {
+		this.master.setInverted(isInverted);
+	}
 
-  public double getSelectedSensorVelocity() {
+	public void setFollowersInverted(Boolean... isInverted) {
+		if (isInverted.length >= this.followers.size()) {
+			forWithCounter(this.followers, (i, follower) -> {
+				follower.setInverted(isInverted[i]);		
+		 	});
+		}
+	}
+
+	public void setFollowersInverted(Boolean isInverted) {
+		this.followers.stream().forEach(follower -> follower.setInverted(isInverted));
+	}
+
+	public double getSelectedSensorVelocity() {
     return this.master.getSelectedSensorVelocity();
   }
 
@@ -50,29 +87,38 @@ public class PIDTalon {
     return this.master.getClosedLoopError();
   }
 
-  private void configFactoryDefault() {
-    this.master.configFactoryDefault();
-  }
+	private void configMasterToFollowers() {
+		this.followers.stream()
+								.forEach(follower -> follower.follow(this.master));
+	}
 
-  private void setSensorPhase(boolean isSensorPhase) {
-    this.master.setSensorPhase(isSensorPhase);
-  }
+	private void configFactoryDefault() {
+		this.master.configFactoryDefault();
 
-  private void setOutputs(
-      double nominalOutputForwardValue,
-      double nominalOutputReverseValue,
-      double peakOutputForwardValue,
-      double peakOutputReverseValue) {
-    this.master.configNominalOutputForward(nominalOutputForwardValue, PIDTalonConstants.kTimeoutMs);
-    this.master.configNominalOutputReverse(nominalOutputReverseValue, PIDTalonConstants.kTimeoutMs);
-    this.master.configPeakOutputForward(peakOutputForwardValue, PIDTalonConstants.kTimeoutMs);
-    this.master.configPeakOutputReverse(peakOutputReverseValue, PIDTalonConstants.kTimeoutMs);
-  }
+		if (this.followers.size() > 0) this.followers.stream()
+								.forEach(follower -> follower.configFactoryDefault());
+	}
 
-  private void setPIDValues(Gains gains) {
-    this.master.config_kF(PIDTalonConstants.kPIDLoopIdx, gains.kF, PIDTalonConstants.kTimeoutMs);
-    this.master.config_kP(PIDTalonConstants.kPIDLoopIdx, gains.kP, PIDTalonConstants.kTimeoutMs);
-    this.master.config_kI(PIDTalonConstants.kPIDLoopIdx, gains.kI, PIDTalonConstants.kTimeoutMs);
-    this.master.config_kD(PIDTalonConstants.kPIDLoopIdx, gains.kD, PIDTalonConstants.kTimeoutMs);
-  }
+	private void setSensorPhase(boolean isSensorPhase) {
+		this.master.setSensorPhase(isSensorPhase);
+	}
+
+	private void setOutputs(
+		double nominalOutputForwardValue, 
+		double nominalOutputReverseValue,
+		double peakOutputForwardValue, 
+		double peakOutputReverseValue
+	) {
+		this.master.configNominalOutputForward(nominalOutputForwardValue, PIDTalonConstants.kTimeoutMs);
+		this.master.configNominalOutputReverse(nominalOutputReverseValue, PIDTalonConstants.kTimeoutMs);
+		this.master.configPeakOutputForward(peakOutputForwardValue, PIDTalonConstants.kTimeoutMs);
+		this.master.configPeakOutputReverse(peakOutputReverseValue, PIDTalonConstants.kTimeoutMs);
+	}
+
+	private void setPIDValues(Gains gains) {
+		this.master.config_kF(PIDTalonConstants.kPIDLoopIdx, gains.kF, PIDTalonConstants.kTimeoutMs);
+		this.master.config_kP(PIDTalonConstants.kPIDLoopIdx, gains.kP, PIDTalonConstants.kTimeoutMs);
+		this.master.config_kI(PIDTalonConstants.kPIDLoopIdx, gains.kI, PIDTalonConstants.kTimeoutMs);
+		this.master.config_kD(PIDTalonConstants.kPIDLoopIdx, gains.kD, PIDTalonConstants.kTimeoutMs);
+	}
 }
