@@ -45,6 +45,10 @@ public class Buffer extends SubsystemBase {
     return this.isInfraredBottomOff() && this.isInfraredTopOff();
   }
 
+  public boolean isAnyInfraredOn() {
+    return !this.isAllInfraredsOff();
+  }
+
   public void stop() {
     this.motor.set(ControlMode.PercentOutput, 0);
   }
@@ -53,6 +57,6 @@ public class Buffer extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("IR Bottom", this.isInfraredBottomOn());
     SmartDashboard.putBoolean("IR Top", this.isInfraredTopOn());
-    SmartDashboard.putBoolean("is Cargo Ready", this.isAllInfraredsOff());
+    SmartDashboard.putBoolean("Is Free To Shoot", this.isAllInfraredsOff());
   }
 }

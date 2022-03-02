@@ -52,8 +52,12 @@ public class Shooter extends SubsystemBase {
 		return this.shooterPID.atSettedVelocity();
 	}
 
+	public boolean isSensorVelocityPositive() {
+		return this.shooterPID.getSelectedSensorVelocity() >= 0;
+	}
+
 	public void stop() {
-		this.shooterPID.stop();
+		this.set(0);
 	}
 
 	@Override

@@ -16,7 +16,9 @@ public class ReleaseFeed extends CommandBase {
 
   @Override
   public void execute() {
-    this.buffer.set(NumberUtil.invert(BufferConstants.speed));
+    if(this.buffer.isAnyInfraredOn()) {
+      this.buffer.set(NumberUtil.invert(BufferConstants.speed));
+    }
   }
 
   @Override

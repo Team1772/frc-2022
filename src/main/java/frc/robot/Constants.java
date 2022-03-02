@@ -94,7 +94,7 @@ public final class Constants {
         kPeakOutputVelocity = 1,
         dutyCycle = 0.8;
 
-      public static final int kIZoneVelocity = 0;
+      public static final int kIZoneVelocity = 0;   
     }
   }
 
@@ -125,7 +125,7 @@ public final class Constants {
       infraredBottomPort = 4,
       infraredTopPort = 5;
 
-    public static final double speed = 0.35;
+    public static final double speed = 0.45;
     public static final boolean isInverted = false;
   }
   
