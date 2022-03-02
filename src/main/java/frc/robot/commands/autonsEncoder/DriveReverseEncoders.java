@@ -12,7 +12,7 @@ public class DriveReverseEncoders extends CommandBase {
   private static final double METERS_LEFT_TO_DECREASE_SPEED = 1.5;
   private static final double DECREASE_SPEED_RATE = 0.002;
 
-  private static final double MINIMUM_SPEED = 0.45;
+  private static final double MINIMUM_SPEED = 0.60;
 
   
   private final Drivetrain drivetrain;
@@ -23,10 +23,10 @@ public class DriveReverseEncoders extends CommandBase {
 
   public DriveReverseEncoders(double meters, double speed, Drivetrain drivetrain) {
     this.meters = meters;
-    this.speed = NumberUtil.invert(speed);
+    this.speed = speed;
     this.drivetrain = drivetrain;
 
-    this.startSpeed = NumberUtil.invert(MINIMUM_SPEED);
+    this.startSpeed = MINIMUM_SPEED;
     addRequirements(this.drivetrain);
   }
 
@@ -64,7 +64,7 @@ public class DriveReverseEncoders extends CommandBase {
   }
 
   private boolean isSpeedAtMinimum() {
-    return this.speed >= NumberUtil.invert(MINIMUM_SPEED);
+    return this.speed <= NumberUtil.invert(MINIMUM_SPEED);
   }
 
   private double keep() {
@@ -76,7 +76,7 @@ public class DriveReverseEncoders extends CommandBase {
   }
 
   private double decrease() {
-    return this.speed += DECREASE_SPEED_RATE;
+    return this.speed -= DECREASE_SPEED_RATE;
   }
 
   @Override

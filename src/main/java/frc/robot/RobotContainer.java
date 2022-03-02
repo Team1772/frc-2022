@@ -3,12 +3,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.core.util.TrajectoryBuilder;
+import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.autonsEncoder.AutonomousEncoders;
+import frc.robot.commands.autonsTrajectory.Test;
 import frc.robot.commands.buffer.ForwardFeed;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
@@ -45,7 +48,8 @@ public class RobotContainer {
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
       "testAuto1",
-      "testAuto2"
+      "testAuto2",
+      "exitTarmac1"
     );
 
     configureButtonBindings();
@@ -83,14 +87,21 @@ public class RobotContainer {
   private void buttonBindingsBuffer() {
     var buttonX = new JoystickButton(this.operator, Button.kX.value);
 
+    var shooterFree = new Trigger(() -> this.buffer.isAllInfraredsOff());
+
+    buttonX.and(shooterFree).whileActiveContinuous(new OperatorRumble(this.operator, true));
     buttonX.whileHeld(new RollbackToShoot(this.intake, this.buffer, this.shooter));
   }
 
   public Command getAutonomousCommand() {
-    return new AutonomousEncoders(this.drivetrain);
+    return new Test(drivetrain, intake, buffer, shooter, trajectoryBuilder);
   }
 
   public void reset() {
     this.drivetrain.reset();
+  }
+
+  public void setRumble(double value) {
+    this.operator.setRumble(RumbleType.kLeftRumble, value);
   }
 }

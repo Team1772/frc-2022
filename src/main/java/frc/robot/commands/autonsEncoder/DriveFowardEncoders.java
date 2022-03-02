@@ -1,6 +1,7 @@
 package frc.robot.commands.autonsEncoder;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.core.util.NumberUtil;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Arcade;
 
@@ -22,10 +23,10 @@ public class DriveFowardEncoders extends CommandBase {
 
   public DriveFowardEncoders(double meters, double speed, Drivetrain drivetrain) {
     this.meters = meters;
-    this.speed = speed;
+    this.speed = NumberUtil.invert(speed);
     this.drivetrain = drivetrain;
     
-    this.startSpeed = MINIMUM_SPEED;
+    this.startSpeed = NumberUtil.invert(MINIMUM_SPEED);
 
     addRequirements(this.drivetrain);
   }
@@ -64,7 +65,7 @@ public class DriveFowardEncoders extends CommandBase {
   }
 
   private boolean isSpeedAtMinimum() {
-    return this.speed <= MINIMUM_SPEED;
+    return this.speed >= NumberUtil.invert(MINIMUM_SPEED);
   }
 
   private double keep() {
@@ -72,11 +73,11 @@ public class DriveFowardEncoders extends CommandBase {
   }
 
   private double increase() {
-    return this.startSpeed += INCREASE_SPEED_RATE;
+    return this.startSpeed -= INCREASE_SPEED_RATE;
   }
 
   private double decrease() {
-    return this.speed -= DECREASE_SPEED_RATE;
+    return this.speed += DECREASE_SPEED_RATE;
   }
 
   @Override
