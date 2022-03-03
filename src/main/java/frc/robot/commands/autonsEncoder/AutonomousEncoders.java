@@ -24,7 +24,7 @@ public class AutonomousEncoders extends SequentialCommandGroup {
       new RotateToAngle(-64, drivetrain),
       new ParallelCommandGroup(
         new DriveFowardEncoders(0.3, 0.8, drivetrain),
-        new CollectCargoTimer(2, intake, shooter)
+        new CollectCargoTimer(2, intake)
       ),
       new RotateToAngle(76, drivetrain),
       new DriveFowardEncoders(0.1, 0.8, drivetrain),

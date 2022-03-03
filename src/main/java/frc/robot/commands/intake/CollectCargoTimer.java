@@ -8,15 +8,13 @@ import frc.robot.subsystems.Shooter;
 
 public class CollectCargoTimer extends CommandBase {
   private final Intake intake;
-  private final Shooter shooter;
 
   private Timer timer;
 
   private double secondsEnabled;
 
-  public CollectCargoTimer(double secondsEnabled, Intake intake, Shooter shooter) {
+  public CollectCargoTimer(double secondsEnabled, Intake intake) {
     this.intake = intake;
-    this.shooter = shooter;
 
     this.timer = new Timer();
     this.secondsEnabled = secondsEnabled;

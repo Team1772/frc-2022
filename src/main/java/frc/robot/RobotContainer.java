@@ -42,8 +42,8 @@ public class RobotContainer {
 
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
-      "enter-tarmac-1",
-      "exit-tarmac-1"
+      "reverse",
+      "reverse_0"
     );
 
     configureButtonBindings();

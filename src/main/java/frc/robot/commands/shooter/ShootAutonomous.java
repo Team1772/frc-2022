@@ -24,7 +24,7 @@ public class ShootAutonomous extends SequentialCommandGroup {
           new ParallelCommandGroup(
             new ShootTimer(this.shooter, secondsEnabled),
             new FowardFeedSensorAndTimer(this.buffer, this.shooter, secondsEnabled),
-            new CollectCargoTimer( secondsEnabled, this.intake, this.shooter)
+            new CollectCargoTimer( secondsEnabled, this.intake)
           ) 
       );
   
