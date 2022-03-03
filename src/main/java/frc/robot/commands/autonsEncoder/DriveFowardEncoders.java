@@ -13,7 +13,7 @@ public class DriveFowardEncoders extends CommandBase {
   private static final double METERS_LEFT_TO_DECREASE_SPEED = 1.5;
   private static final double DECREASE_SPEED_RATE = 0.002;
 
-  private static final double MINIMUM_SPEED = 0.45;
+  private static final double MINIMUM_SPEED = 0.60;
 
   private final Drivetrain drivetrain;
   private double meters;
@@ -23,10 +23,10 @@ public class DriveFowardEncoders extends CommandBase {
 
   public DriveFowardEncoders(double meters, double speed, Drivetrain drivetrain) {
     this.meters = meters;
-    this.speed = NumberUtil.invert(speed);
+    this.speed = speed;
     this.drivetrain = drivetrain;
     
-    this.startSpeed = NumberUtil.invert(MINIMUM_SPEED);
+    this.startSpeed = MINIMUM_SPEED;
 
     addRequirements(this.drivetrain);
   }
@@ -53,11 +53,11 @@ public class DriveFowardEncoders extends CommandBase {
   }
 
   private boolean isStarting() {
-    return this.drivetrain.getAverageDistance() < METERS_RAN_TO_INCREASE_SPEED;
+    return this.getModuleAverageDistance() < METERS_RAN_TO_INCREASE_SPEED;
   }
 
   private boolean isNearEnd() {
-    return this.drivetrain.getAverageDistance() + METERS_LEFT_TO_DECREASE_SPEED > this.meters;
+    return this.getModuleAverageDistance() + METERS_LEFT_TO_DECREASE_SPEED > this.meters;
   }
 
   private boolean isStartSpeedAtMaximum() {
@@ -65,7 +65,7 @@ public class DriveFowardEncoders extends CommandBase {
   }
 
   private boolean isSpeedAtMinimum() {
-    return this.speed >= NumberUtil.invert(MINIMUM_SPEED);
+    return this.speed <= MINIMUM_SPEED;
   }
 
   private double keep() {
@@ -73,11 +73,11 @@ public class DriveFowardEncoders extends CommandBase {
   }
 
   private double increase() {
-    return this.startSpeed -= INCREASE_SPEED_RATE;
+    return this.startSpeed += INCREASE_SPEED_RATE;
   }
 
   private double decrease() {
-    return this.speed += DECREASE_SPEED_RATE;
+    return this.speed -= DECREASE_SPEED_RATE;
   }
 
   @Override
@@ -88,6 +88,10 @@ public class DriveFowardEncoders extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return this.drivetrain.getAverageDistance() > this.meters;
+    return this.getModuleAverageDistance() > this.meters;
+  }
+
+  private double getModuleAverageDistance() {
+    return NumberUtil.module(this.drivetrain.getAverageDistance());
   }
 }

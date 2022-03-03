@@ -10,6 +10,7 @@ import frc.core.util.TrajectoryBuilder;
 import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.autonsEncoder.AutonomousEncoders;
+import frc.robot.commands.autonsTrajectory.AutonomousTrajectoryBuilder;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.SmartCollect;
@@ -59,7 +60,7 @@ public class RobotContainer {
     this.drivetrain.setDefaultCommand(
       new ArcadeDrive(
         this.drivetrain, 
-        () -> this.driver.getLeftY(), 
+        () -> -this.driver.getLeftY(), 
         () -> this.driver.getRightX()
       )
     );
@@ -87,7 +88,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new AutonomousEncoders(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    return new AutonomousTrajectoryBuilder(drivetrain, intake, buffer, shooter, trajectoryBuilder);
   }
 
   public void reset() {

@@ -28,7 +28,6 @@ public class RotateToAngle extends CommandBase {
   @Override
   public void execute() {
     this.rotateToAngle();
-    System.out.println("angle " + this.drivetrain.getAngle());
   }
 
   private void rotateToAngle() {
@@ -46,11 +45,11 @@ public class RotateToAngle extends CommandBase {
   }
 
   private double rotateRight() {
-    return ROTATION_RATE;
+    return NumberUtil.invert(ROTATION_RATE);
   }
 
   private double rotateLeft() {
-    return NumberUtil.invert(ROTATION_RATE);    
+    return ROTATION_RATE;    
   }
 
   @Override
