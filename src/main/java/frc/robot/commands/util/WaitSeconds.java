@@ -1,4 +1,4 @@
-package frc.robot.commands.autonsEncoder;
+package frc.robot.commands.util;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;

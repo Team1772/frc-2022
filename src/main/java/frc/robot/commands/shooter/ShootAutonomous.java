@@ -1,11 +1,10 @@
-package frc.robot.commands.autonsTrajectory;
+package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.buffer.FowardFeedSensorAndTimer;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.intake.CollectCargoTimer;
-import frc.robot.commands.shooter.ShootTimer;
 import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
