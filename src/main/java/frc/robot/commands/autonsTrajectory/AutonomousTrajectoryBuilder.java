@@ -12,8 +12,9 @@ import frc.robot.subsystems.Shooter;
 public class AutonomousTrajectoryBuilder extends SequentialCommandGroup {
   public AutonomousTrajectoryBuilder(Drivetrain drivetrain, Intake intake, Buffer buffer, Shooter shooter, TrajectoryBuilder trajectoryBuilder) {
     super.addCommands(
-      // trajectoryBuilder.run("straight"),
-      new DriveFowardEncoders(0.5, 0.45, drivetrain)
+      trajectoryBuilder.run("exit-tarmac-1"),
+      trajectoryBuilder.run("enter-tarmac-1")
+      // new DriveFowardEncoders(0.5, 0.45, drivetrain)
     );
   }
 }

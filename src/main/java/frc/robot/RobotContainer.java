@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.core.util.TrajectoryBuilder;
 import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.autonsEncoder.AutonomousEncoders;
 import frc.robot.commands.autonsTrajectory.AutonomousTrajectoryBuilder;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
@@ -43,7 +42,8 @@ public class RobotContainer {
 
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
-      "straight"
+      "enter-tarmac-1",
+      "exit-tarmac-1"
     );
 
     configureButtonBindings();
@@ -61,7 +61,7 @@ public class RobotContainer {
       new ArcadeDrive(
         this.drivetrain, 
         () -> -this.driver.getLeftY(), 
-        () -> this.driver.getRightX()
+        () -> -this.driver.getRightX()
       )
     );
   }

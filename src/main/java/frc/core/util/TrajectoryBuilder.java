@@ -91,7 +91,6 @@ public class TrajectoryBuilder {
   	}
 
   	public Command build(boolean updateOdometry, String... filesNames) {
-		System.out.println(filesNames[0]);
 		var trajectories = this.trajectories
 			.entrySet()
 			.stream()
@@ -99,13 +98,10 @@ public class TrajectoryBuilder {
 				.contains(trajectory.getKey()))
 			.map(Entry::getValue)
 			.collect(Collectors.toList());
-		// Collections.reverse(trajectories);
 
 		var trajectory = trajectories.size() > 1 ? 
 			this.concatenate(trajectories) : 
       		trajectories.get(FIRST_TRAJECTORY_INDEX);
-
-		System.out.println(trajectories.size());
 
 		this.createRamsete(trajectory, updateOdometry);
 
@@ -130,8 +126,8 @@ public class TrajectoryBuilder {
 			return TrajectoryUtil.fromPathweaverJson(trajectoryPath);
 		} catch (IOException ex) {
 			DriverStation.reportError(
-        String.format("Unable to open trajectory: %s", path), 
-        ex.getStackTrace()
+        		String.format("Unable to open trajectory: %s", path), 
+       			ex.getStackTrace()
 			);
 
 			return null;
