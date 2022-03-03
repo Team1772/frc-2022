@@ -5,10 +5,10 @@ import frc.robot.Constants.BufferConstants;
 import frc.robot.subsystems.Buffer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ReleaseFeed extends CommandBase {
+public class ReleaseFeedSensor extends CommandBase {
   private final Buffer buffer;
 
-  public ReleaseFeed(Buffer buffer) {
+  public ReleaseFeedSensor(Buffer buffer) {
     this.buffer = buffer;
 
     addRequirements(this.buffer);
@@ -25,5 +25,4 @@ public class ReleaseFeed extends CommandBase {
   public void end(boolean interrupted) {
     this.buffer.stop();
   }
-
 }

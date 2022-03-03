@@ -8,7 +8,7 @@ import frc.robot.subsystems.Drivetrain.Arcade;
 public class RotateToAngle extends CommandBase {
 
   private static final int ZERO_NUMBER = 0;
-  private static final double ROTATION_RATE = 0.63;
+  private static final double ROTATION_RATE = 0.80;
 
   private final Drivetrain drivetrain;
   private double angle;
@@ -28,6 +28,7 @@ public class RotateToAngle extends CommandBase {
   @Override
   public void execute() {
     this.rotateToAngle();
+    System.out.println("angle " + this.drivetrain.getAngle());
   }
 
   private void rotateToAngle() {
@@ -45,11 +46,11 @@ public class RotateToAngle extends CommandBase {
   }
 
   private double rotateRight() {
-    return NumberUtil.invert(ROTATION_RATE);
+    return ROTATION_RATE;
   }
 
   private double rotateLeft() {
-    return ROTATION_RATE;    
+    return NumberUtil.invert(ROTATION_RATE);    
   }
 
   @Override

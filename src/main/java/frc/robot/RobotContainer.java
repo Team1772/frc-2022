@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -11,14 +10,10 @@ import frc.core.util.TrajectoryBuilder;
 import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.autonsEncoder.AutonomousEncoders;
-import frc.robot.commands.autonsTrajectory.Test;
-import frc.robot.commands.buffer.ForwardFeed;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
-import frc.robot.commands.intake.SmartFeed;
-import frc.robot.commands.shooter.PullCargo;
+import frc.robot.commands.intake.SmartCollect;
 import frc.robot.commands.shooter.Shoot;
-import frc.robot.commands.shooter.ShootCargo;
 import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -47,9 +42,7 @@ public class RobotContainer {
 
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
-      "testAuto1",
-      "testAuto2",
-      "exitTarmac1"
+      "straight"
     );
 
     configureButtonBindings();
@@ -75,7 +68,7 @@ public class RobotContainer {
   private void buttonBindingsIntake() {
     var leftBumper = new JoystickButton(this.operator, Button.kLeftBumper.value);
 
-    leftBumper.whileHeld(new SmartFeed(intake, buffer));
+    leftBumper.whileHeld(new SmartCollect(intake, buffer));
   }
 
   private void buttonBindingsShooter() {
@@ -94,7 +87,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new Test(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    return new AutonomousEncoders(drivetrain, intake, buffer, shooter, trajectoryBuilder);
   }
 
   public void reset() {

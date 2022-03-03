@@ -12,4 +12,20 @@ public class WaitSeconds extends CommandBase{
     this.timer = new Timer();
     this.secondsToWait = secondsToWait;
   }
+
+  @Override
+  public void initialize() {
+    this.timer.reset();
+    this.timer.start();
+  }
+
+  @Override
+  public boolean isFinished() {
+    return this.timer.get() > this.secondsToWait;
+  }
+
+  @Override
+  public void end(boolean isInterrupted) {
+    this.timer.stop();
+  }
 }

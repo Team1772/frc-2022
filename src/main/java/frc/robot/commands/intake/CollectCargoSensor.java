@@ -5,11 +5,11 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class UseIntakeToShoot extends CommandBase{
+public class CollectCargoSensor extends CommandBase{
     private final Intake intake;
     private final Shooter shooter;
 
-    public UseIntakeToShoot(Intake intake, Shooter shooter) {
+    public CollectCargoSensor(Intake intake, Shooter shooter) {
       this.intake = intake;
       this.shooter = shooter;
   

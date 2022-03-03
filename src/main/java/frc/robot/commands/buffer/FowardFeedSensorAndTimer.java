@@ -4,10 +4,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Buffer;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class UseBufferToShootTimer extends CommandBase{
+public class FowardFeedSensorAndTimer extends CommandBase{
     private final Buffer buffer;
     private final Shooter shooter;
 
@@ -15,7 +14,7 @@ public class UseBufferToShootTimer extends CommandBase{
 
     private double secondsEnabled;
 
-    public UseBufferToShootTimer(Buffer buffer, Shooter shooter, double secondsEnabled) {
+    public FowardFeedSensorAndTimer(Buffer buffer, Shooter shooter, double secondsEnabled) {
       this.buffer = buffer;
       this.shooter = shooter;
       this.secondsEnabled = secondsEnabled;

@@ -6,7 +6,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class UseIntakeToShootTimer extends CommandBase {
+public class CollectCargoTimer extends CommandBase {
   private final Intake intake;
   private final Shooter shooter;
 
@@ -14,7 +14,7 @@ public class UseIntakeToShootTimer extends CommandBase {
 
   private double secondsEnabled;
 
-  public UseIntakeToShootTimer(Intake intake, Shooter shooter, double secondsEnabled) {
+  public CollectCargoTimer(double secondsEnabled, Intake intake, Shooter shooter) {
     this.intake = intake;
     this.shooter = shooter;
 
@@ -33,9 +33,7 @@ public class UseIntakeToShootTimer extends CommandBase {
 
   @Override
   public void execute() {
-    if (this.shooter.atSettedVelocity()) {
-      this.intake.set(ShooterConstants.speed);
-    }
+    this.intake.set(ShooterConstants.speed);
   }
 
   @Override

@@ -2,15 +2,14 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.core.util.NumberUtil;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Intake;
 
-public class ReleaseCargo extends CommandBase {
+public class ReleaseCargoSensor extends CommandBase {
   private final Intake intake;
   private final Buffer buffer;
 
-  public ReleaseCargo(Intake intake, Buffer buffer) {
+  public ReleaseCargoSensor(Intake intake, Buffer buffer) {
     this.intake = intake;
     this.buffer = buffer;
 

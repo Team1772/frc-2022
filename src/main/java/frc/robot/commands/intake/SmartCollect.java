@@ -5,11 +5,11 @@ import frc.robot.commands.buffer.ForwardFeed;
 import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Intake;
 
-public class SmartFeed extends ParallelCommandGroup {
+public class SmartCollect extends ParallelCommandGroup {
   private Intake intake;
   private Buffer buffer;
 
-  public SmartFeed(Intake intake, Buffer buffer) {
+  public SmartCollect(Intake intake, Buffer buffer) {
     this.intake = intake;
     this.buffer = buffer;
 
