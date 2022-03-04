@@ -62,24 +62,25 @@ public class TrajectoryBuilder {
             this::createTrajectory));
   }
 
-  public void createRamsete(Trajectory trajectory, boolean updateOdometry) {
+  public RamseteCommand createRamsete(Trajectory trajectory, boolean updateOdometry) {
     if (isNull(trajectory)) {
       DriverStation.reportError(
           "trajectory is null",
           new Exception().getStackTrace());
-    } else {
-      this.ramseteCommand = new RamseteCommand(
-          trajectory,
-          this.drivetrain::getPose,
-          this.ramseteController,
-          this.simpleMotorFeedforward,
-          DrivetrainConstants.kDriveKinematics,
-          this.drivetrain::getWheelSpeeds,
-          this.pidController,
-          this.pidController,
-          this.drivetrain::tankDriveVolts,
-          this.drivetrain);
+      trajectory = new Trajectory();
     }
+
+    return new RamseteCommand(
+        trajectory,
+        this.drivetrain::getPose,
+        this.ramseteController,
+        this.simpleMotorFeedforward,
+        DrivetrainConstants.kDriveKinematics,
+        this.drivetrain::getWheelSpeeds,
+        this.pidController,
+        this.pidController,
+        this.drivetrain::tankDriveVolts,
+        this.drivetrain);
   }
 
   public Command build(boolean updateOdometry, String... filesNames) {
@@ -94,14 +95,15 @@ public class TrajectoryBuilder {
     var trajectory = trajectories.size() > 1 ? this.concatenate(trajectories)
         : trajectories.get(FIRST_TRAJECTORY_INDEX);
 
-    this.createRamsete(trajectory, updateOdometry);
+    if (updateOdometry) {
+      this.drivetrain.resetOdometry(trajectory.getInitialPose());
+    }
 
-    this.drivetrain.resetOdometry(trajectory.getInitialPose());
+    var command = createRamsete(trajectory, updateOdometry);
 
-    return this.getRamsete().andThen(
+    return command.andThen(
         () -> {
           this.drivetrain.tankDriveVolts(0, 0);
-          this.drivetrain.resetOdometry(trajectory.getInitialPose());
         }
     );
   }
