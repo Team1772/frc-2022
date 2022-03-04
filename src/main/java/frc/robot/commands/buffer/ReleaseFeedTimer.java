@@ -1,6 +1,7 @@
 package frc.robot.commands.buffer;
 
 import frc.core.util.NumberUtil;
+import frc.robot.Constants.BufferConstants;
 import frc.robot.subsystems.Buffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;

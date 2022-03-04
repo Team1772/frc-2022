@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,8 +14,6 @@ import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.autonsEncoder.TwoCargosTarmacOne;
 import frc.robot.commands.autonsTrajectory.AutonomousTrajectoryBuilder;
-import frc.robot.commands.autonsTrajectory.Reverse;
-import frc.robot.commands.autonsTrajectory.Straight;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.SmartCollect;
@@ -49,19 +48,17 @@ public class RobotContainer {
 
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
-      "straight",
-      "reverse"
+      "reverse",
+      "reverse_0"
     );
 
     this.autonomousChooser = new SendableChooser<>();
 
-    var straight = new Straight(this.trajectoryBuilder);
-    var reverse = new Reverse(this.trajectoryBuilder);
+    var encodersAuto = new TwoCargosTarmacOne(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    var trajectoryBuilderAuto = new AutonomousTrajectoryBuilder(drivetrain, intake, buffer, shooter, trajectoryBuilder);
 
-
-    this.autonomousChooser.setDefaultOption("straight", straight);
-    this.autonomousChooser.addOption("reverse", reverse);
-
+    this.autonomousChooser.setDefaultOption("test1", encodersAuto);
+    this.autonomousChooser.addOption("test2", trajectoryBuilderAuto);
     SmartDashboard.putData(this.autonomousChooser);
 
     configureButtonBindings();
