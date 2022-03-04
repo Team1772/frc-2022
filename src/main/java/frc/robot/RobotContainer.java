@@ -48,8 +48,8 @@ public class RobotContainer {
 
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
-      "reverse",
-      "reverse_0"
+      "straight",
+      "reverse"
     );
 
     this.autonomousChooser = new SendableChooser<>();
@@ -57,8 +57,8 @@ public class RobotContainer {
     var encodersAuto = new TwoCargosTarmacOne(drivetrain, intake, buffer, shooter, trajectoryBuilder);
     var trajectoryBuilderAuto = new AutonomousTrajectoryBuilder(drivetrain, intake, buffer, shooter, trajectoryBuilder);
 
-    this.autonomousChooser.setDefaultOption("test1", encodersAuto);
-    this.autonomousChooser.addOption("test2", trajectoryBuilderAuto);
+    this.autonomousChooser.setDefaultOption("encoders", encodersAuto);
+    this.autonomousChooser.addOption("trajectorybuilder", trajectoryBuilderAuto);
     SmartDashboard.putData(this.autonomousChooser);
 
     configureButtonBindings();
