@@ -14,7 +14,7 @@ public class ShootCargo extends CommandBase {
 
   @Override
   public void execute() {
-    if(this.shooter.isSensorVelocityPositive()) {
+    if(this.shooter.isSafetyShoot()) {
       this.shooter.setVelocityMetersPerSecond(25);
     }
   }

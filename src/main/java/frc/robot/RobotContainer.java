@@ -3,12 +3,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.core.util.TrajectoryBuilder;
 import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.autonsEncoder.TwoCargosTarmacOne;
 import frc.robot.commands.autonsTrajectory.AutonomousTrajectoryBuilder;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
@@ -26,6 +30,8 @@ public class RobotContainer {
   private final Buffer buffer;
 
   private TrajectoryBuilder trajectoryBuilder;
+  SendableChooser<Command> autonomousChooser;
+
 
   private XboxController driver;
   private XboxController operator;
@@ -45,6 +51,15 @@ public class RobotContainer {
       "reverse",
       "reverse_0"
     );
+
+    this.autonomousChooser = new SendableChooser<>();
+
+    var encodersAuto = new TwoCargosTarmacOne(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    var trajectoryBuilderAuto = new AutonomousTrajectoryBuilder(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+
+    this.autonomousChooser.setDefaultOption("test1", encodersAuto);
+    this.autonomousChooser.addOption("test2", trajectoryBuilderAuto);
+    SmartDashboard.putData(this.autonomousChooser);
 
     configureButtonBindings();
   }
@@ -69,7 +84,7 @@ public class RobotContainer {
   private void buttonBindingsIntake() {
     var leftBumper = new JoystickButton(this.operator, Button.kLeftBumper.value);
 
-    leftBumper.whileHeld(new SmartCollect(intake, buffer));
+    leftBumper.whileHeld(new SmartCollect(this.intake, this.buffer, this.shooter));
   }
 
   private void buttonBindingsShooter() {
@@ -88,7 +103,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new AutonomousTrajectoryBuilder(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    return this.autonomousChooser.getSelected();
   }
 
   public void reset() {
