@@ -21,7 +21,6 @@ public class CollectCargoTimer extends CommandBase {
     addRequirements(this.intake);
   }
 
-
   @Override
   public void initialize() {
     this.timer.reset();

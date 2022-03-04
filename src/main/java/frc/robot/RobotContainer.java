@@ -13,6 +13,8 @@ import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.autonsEncoder.TwoCargosTarmacOne;
 import frc.robot.commands.autonsTrajectory.AutonomousTrajectoryBuilder;
+import frc.robot.commands.autonsTrajectory.Reverse;
+import frc.robot.commands.autonsTrajectory.Straight;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.SmartCollect;
@@ -53,11 +55,13 @@ public class RobotContainer {
 
     this.autonomousChooser = new SendableChooser<>();
 
-    var encodersAuto = new TwoCargosTarmacOne(drivetrain, intake, buffer, shooter, trajectoryBuilder);
-    var trajectoryBuilderAuto = new AutonomousTrajectoryBuilder(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    var straight = new Straight(this.trajectoryBuilder);
+    var reverse = new Reverse(this.trajectoryBuilder);
 
-    this.autonomousChooser.setDefaultOption("encoders", encodersAuto);
-    this.autonomousChooser.addOption("trajectorybuilder", trajectoryBuilderAuto);
+
+    this.autonomousChooser.setDefaultOption("straight", straight);
+    this.autonomousChooser.addOption("reverse", reverse);
+
     SmartDashboard.putData(this.autonomousChooser);
 
     configureButtonBindings();
