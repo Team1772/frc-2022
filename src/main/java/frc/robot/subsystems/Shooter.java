@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,11 +12,15 @@ import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
+
+	private static final int NEUTRAL_SENSOR_VELOCITY = Math.abs(200);
+	private static final int SAFE_REVERSE_SENSOR_VELOCITY = -1200;
 	private final WPI_TalonSRX motor;
 	private final TalonVelocity shooterPID;
 
 	public Shooter() {
 		this.motor = new WPI_TalonSRX(Constants.ShooterConstants.motorPort);
+		this.motor.setNeutralMode(NeutralMode.Coast);
 
 		this.shooterPID = new TalonVelocity(
 				this.motor,
@@ -28,6 +33,7 @@ public class Shooter extends SubsystemBase {
 						ShooterConstants.PID.kFVelocity,
 						ShooterConstants.PID.kIZoneVelocity,
 						ShooterConstants.PID.kPeakOutputVelocity));
+
 	}
 
 	public void set(double speed) {
@@ -51,8 +57,12 @@ public class Shooter extends SubsystemBase {
 		return this.shooterPID.atSettedVelocity();
 	}
 
-	public boolean isSensorVelocityPositive() {
-		return this.shooterPID.getSelectedSensorVelocity() >= 0;
+	public boolean isSafetyShoot() {
+		return this.shooterPID.getSelectedSensorVelocity() >= SAFE_REVERSE_SENSOR_VELOCITY;
+	}
+
+	public boolean isShooterMoving() {
+		return Math.abs(this.shooterPID.getSelectedSensorVelocity()) > NEUTRAL_SENSOR_VELOCITY;
 	}
 
 	public void stop() {
