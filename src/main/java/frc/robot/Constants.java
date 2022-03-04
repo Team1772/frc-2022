@@ -8,19 +8,20 @@ public final class Constants {
     public static final int
       motorLeftBack = 0,
       motorLeftFront = 1,
-      motorRightBack = 2,
-      motorRightFront = 3;
+      motorRightBack = 3,
+      motorRightFront = 2;
 
     public static final boolean 
       isMotorsLeftInverted = true,
       isMotorsRightInverted = false;
 
+
     //encoders
     public static final int
-      encoderRightPortOne = 6,
-      encoderRightPortTwo = 7,
-      encoderLeftPortOne = 8,
-      encoderLeftPortTwo = 9;
+      encoderRightPortOne = 8,
+      encoderRightPortTwo = 9,
+      encoderLeftPortOne = 6,
+      encoderLeftPortTwo = 7;
 
     public static final boolean
       isEncoderLeftInverted = true,
@@ -54,6 +55,10 @@ public final class Constants {
     }
   }
 
+  public static final class ShooterConstants {
+    public static final int motorPort = 1;
+}
+
   public static final class OIConstants {
     public static final int
       driverControllerPort = 0,
@@ -70,6 +75,12 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int	motorPort = 2;
+
+    public static final double speed = 0.6;
+  }
+  
+  public static final class BufferConstants{
+    public static final int motorPort = 3;
   }
   
 }
