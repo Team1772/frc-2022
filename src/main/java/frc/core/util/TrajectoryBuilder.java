@@ -35,7 +35,6 @@ public class TrajectoryBuilder {
   private final RamseteController ramseteController;
 
   private Map<String, Trajectory> trajectories;
-  private RamseteCommand ramseteCommand;
 
   public TrajectoryBuilder(Drivetrain drivetrain, String... filesNames) {
     this.drivetrain = drivetrain;
@@ -110,10 +109,6 @@ public class TrajectoryBuilder {
 
   public Command run(String... filesNames) {
     return this.build(true, filesNames);
-  }
-
-  private RamseteCommand getRamsete() {
-    return this.ramseteCommand;
   }
 
   private Trajectory createTrajectory(String fileName) {

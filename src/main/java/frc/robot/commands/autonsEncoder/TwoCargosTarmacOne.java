@@ -1,12 +1,7 @@
 package frc.robot.commands.autonsEncoder;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.core.util.TrajectoryBuilder;
-import frc.robot.commands.buffer.ReleaseFeedTimer;
-import frc.robot.commands.intake.CollectCargoTimer;
-import frc.robot.commands.shooter.ShootAutonomous;
-import frc.robot.commands.util.WaitSeconds;
 import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;

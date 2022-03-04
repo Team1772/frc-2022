@@ -37,9 +37,9 @@ public final class Constants {
 
     //voltageConstraint
 		public static final double 
-      ksVolts = 1.1414, //kS
-      kvVoltSecondsPerMeter = 2.6416, //kV
-      kaVoltSecondsSquaredPerMeter = 0.7905, //kA
+      ksVolts = 1.103, //kS
+      kvVoltSecondsPerMeter = 2.6508, //kV
+      kaVoltSecondsSquaredPerMeter = 0.4465, //kA
       kTrackwidthMeters = 0.8200,
       differentialDriveVoltageConstraintMaxVoltage = 7;
 

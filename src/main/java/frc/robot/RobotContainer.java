@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -48,8 +47,8 @@ public class RobotContainer {
 
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
-      "reverse",
-      "reverse_0"
+      "straight",
+      "reverse"
     );
 
     this.autonomousChooser = new SendableChooser<>();
@@ -57,8 +56,8 @@ public class RobotContainer {
     var encodersAuto = new TwoCargosTarmacOne(drivetrain, intake, buffer, shooter, trajectoryBuilder);
     var trajectoryBuilderAuto = new AutonomousTrajectoryBuilder(drivetrain, intake, buffer, shooter, trajectoryBuilder);
 
-    this.autonomousChooser.setDefaultOption("test1", encodersAuto);
-    this.autonomousChooser.addOption("test2", trajectoryBuilderAuto);
+    this.autonomousChooser.setDefaultOption("encoders", encodersAuto);
+    this.autonomousChooser.addOption("trajectorybuilder", trajectoryBuilderAuto);
     SmartDashboard.putData(this.autonomousChooser);
 
     configureButtonBindings();
