@@ -20,18 +20,9 @@ import frc.robot.subsystems.Shooter;
 
 public class AutonomousTrajectoryBuilder extends SequentialCommandGroup {
   public AutonomousTrajectoryBuilder(Drivetrain drivetrain, Intake intake, Buffer buffer, Shooter shooter, TrajectoryBuilder trajectoryBuilder) {
-    Command reverse = trajectoryBuilder.build(true, "reverse");
-    Command straight = trajectoryBuilder.build(false, "straight");
+
     super.addCommands(
-        //doesn't work two run() methods on a SequentialCommandGroup
-
-        reverse,
-
-        new ShootAutonomous(3, intake, buffer, shooter),
-
-        straight
-
-        //the parameter in method run() is the name of the pathweaver .json
+      trajectoryBuilder.run("foward", "reverse")
 
     );
 

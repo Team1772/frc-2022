@@ -19,7 +19,7 @@ public class ReleaseCargoSensor extends CommandBase {
   @Override
   public void execute() {
     if(this.buffer.isAnyInfraredOn()) {
-      this.intake.set(NumberUtil.invert(0.4));
+      this.intake.set(NumberUtil.invert(0.35));
     }
   }
 

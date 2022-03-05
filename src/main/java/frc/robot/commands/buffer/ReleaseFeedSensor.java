@@ -17,7 +17,7 @@ public class ReleaseFeedSensor extends CommandBase {
   @Override
   public void execute() {
     if(this.buffer.isAnyInfraredOn()) {
-      this.buffer.set(NumberUtil.invert(BufferConstants.speed));
+      this.buffer.set(NumberUtil.invert(0.35));
     }
   }
 
