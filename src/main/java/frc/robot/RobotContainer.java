@@ -49,8 +49,7 @@ public class RobotContainer {
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
       "foward",
-      "reverse"
-
+      "foward2"
     );
 
     this.autonomousChooser = new SendableChooser<>();

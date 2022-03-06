@@ -22,7 +22,8 @@ public class AutonomousTrajectoryBuilder extends SequentialCommandGroup {
   public AutonomousTrajectoryBuilder(Drivetrain drivetrain, Intake intake, Buffer buffer, Shooter shooter, TrajectoryBuilder trajectoryBuilder) {
 
     super.addCommands(
-      trajectoryBuilder.run("foward", "reverse")
+      trajectoryBuilder.build(true, "foward2"),
+      trajectoryBuilder.build(false, "foward")
 
     );
 
