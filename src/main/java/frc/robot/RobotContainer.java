@@ -48,8 +48,8 @@ public class RobotContainer {
 
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
-      "foward2",
-      "foward3"
+      "forward",
+      "reverse"
     );
 
     this.autonomousChooser = new SendableChooser<>();
@@ -101,7 +101,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return this.autonomousChooser.getSelected();
+    // return this.autonomousChooser.getSelected();
+    return new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
   }
 
   public void reset() {

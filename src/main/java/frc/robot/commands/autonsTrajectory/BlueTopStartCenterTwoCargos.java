@@ -22,7 +22,8 @@ public class BlueTopStartCenterTwoCargos extends SequentialCommandGroup {
   public BlueTopStartCenterTwoCargos(Drivetrain drivetrain, Intake intake, Buffer buffer, Shooter shooter, TrajectoryBuilder trajectoryBuilder) {
 
     super.addCommands(
-      trajectoryBuilder.run("foward", "reverse")
+      trajectoryBuilder.build(true, "forward"),
+      trajectoryBuilder.build(false, "reverse")
     );
   }
 }
