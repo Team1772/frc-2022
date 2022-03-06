@@ -13,7 +13,7 @@ import frc.core.util.TrajectoryBuilder;
 import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.autonsEncoder.TwoCargosTarmacOne;
-import frc.robot.commands.autonsTrajectory.AutonomousTrajectoryBuilder;
+import frc.robot.commands.autonsTrajectory.BlueTopStartCenterTwoCargos;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.SmartCollect;
@@ -48,17 +48,15 @@ public class RobotContainer {
 
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
-      "foward",
-      "foward2"
+      "foward2",
+      "foward3"
     );
 
     this.autonomousChooser = new SendableChooser<>();
 
-    var encodersAuto = new TwoCargosTarmacOne(drivetrain, intake, buffer, shooter, trajectoryBuilder);
-    var trajectoryBuilderAuto = new AutonomousTrajectoryBuilder(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    var trajectoryBuilderAuto = new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
 
-    this.autonomousChooser.setDefaultOption("encoders", encodersAuto);
-    this.autonomousChooser.addOption("trajectoryBuilder", trajectoryBuilderAuto);
+    this.autonomousChooser.addOption("blueTopStartCenterTwoCargos", trajectoryBuilderAuto);
     SmartDashboard.putData(this.autonomousChooser);
 
     configureButtonBindings();
@@ -103,8 +101,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    // return this.autonomousChooser.getSelected();
-    return new AutonomousTrajectoryBuilder(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    return this.autonomousChooser.getSelected();
   }
 
   public void reset() {
