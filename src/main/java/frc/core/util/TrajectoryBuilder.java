@@ -100,13 +100,15 @@ public class TrajectoryBuilder {
 				.contains(trajectory.getKey()))
 			.map(Entry::getValue)
 			.collect(Collectors.toList());
-		//Collections.reverse(trajectories);
+		// Collections.reverse(trajectories);
 
 		var trajectory = trajectories.size() > 1 ? 
 			this.concatenate(trajectories) : 
       		trajectories.get(FIRST_TRAJECTORY_INDEX);
 
-		if (updateOdometry) this.drivetrain.resetOdometry(trajectory.getInitialPose());
+    if (updateOdometry) {
+    this.drivetrain.resetOdometry(trajectory.getInitialPose());
+    }
 
 		this.createRamsete(trajectory, updateOdometry);
 
