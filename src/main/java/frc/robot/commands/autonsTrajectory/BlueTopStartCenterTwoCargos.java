@@ -18,12 +18,27 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
+//max velocity: 2
+//max acceleration: 2
+
 public class BlueTopStartCenterTwoCargos extends SequentialCommandGroup {
   public BlueTopStartCenterTwoCargos(Drivetrain drivetrain, Intake intake, Buffer buffer, Shooter shooter, TrajectoryBuilder trajectoryBuilder) {
 
     super.addCommands(
-      trajectoryBuilder.build(true, "forward"),
-      trajectoryBuilder.build(false, "reverse")
+      new ParallelCommandGroup(
+        trajectoryBuilder.build(true, "exitTarmac1"),
+        new ReleaseFeedTimer(1.5, buffer)
+      ),
+      new ShootAutonomous(2, intake, buffer, shooter),
+
+      trajectoryBuilder.build(false, "reverseAlignCargo1"),
+
+      new ParallelCommandGroup(
+        trajectoryBuilder.build(false, "getCargoAndStopToShoot1"),
+        new CollectCargoTimer(3, intake)
+       ),
+       
+      new ShootAutonomous(2, intake, buffer, shooter)
     );
   }
 }

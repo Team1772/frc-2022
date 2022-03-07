@@ -1,24 +1,23 @@
-package frc.robot.commands.shooter;
+package frc.robot.commands.buffer;
 
-import frc.robot.subsystems.Shooter;
+import frc.robot.Constants.BufferConstants;
+import frc.robot.subsystems.Buffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ShootTimer extends CommandBase {
+public class ForwardFeedTimer extends CommandBase {
+  private final Buffer buffer;
 
-  private final Shooter shooter;
-  
   private Timer timer;
-  
+
   private double secondsEnabled;
 
-  public ShootTimer(Shooter shooter, double secondsEnabled) {
-    this.shooter = shooter;
+  public ForwardFeedTimer(double secondsEnabled, Buffer buffer) {
+    this.buffer = buffer;
+    this.timer = new Timer();
     this.secondsEnabled = secondsEnabled;
 
-    this.timer = new Timer();
-    
-    addRequirements(this.shooter);
+    addRequirements(this.buffer);
   }
 
   @Override
@@ -29,9 +28,7 @@ public class ShootTimer extends CommandBase {
 
   @Override
   public void execute() {
-    if(this.shooter.isSafetyShoot()) {
-      this.shooter.setVelocityMetersPerSecond(26);
-    }
+    this.buffer.set(BufferConstants.speed);
   }
 
   @Override
@@ -41,7 +38,6 @@ public class ShootTimer extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    this.shooter.stop();
-    this.timer.stop();
+    this.buffer.stop();
   }
 }

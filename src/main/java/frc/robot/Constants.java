@@ -37,10 +37,10 @@ public final class Constants {
 
     //voltageConstraint
 		public static final double 
-      ksVolts = 1.1276, //kS
-      kvVoltSecondsPerMeter = 2.6337, //kV
-      kaVoltSecondsSquaredPerMeter = 0.7848, //kA
-      kTrackwidthMeters = 0.8243,
+      ksVolts = 1.0072, //kS
+      kvVoltSecondsPerMeter = 2.5362, //kV
+      kaVoltSecondsSquaredPerMeter = 0.9221, //kA
+      kTrackwidthMeters = 0.8067,
       differentialDriveVoltageConstraintMaxVoltage = 7;
 
     public static final DifferentialDriveKinematics
@@ -48,9 +48,9 @@ public final class Constants {
 
     public static final class PID {
       public static final double 
-        kPDriveVelocity = 2.5422,
+        kPDriveVelocity = 4.0807,
         kIDriveVelocity = 0,
-        kDDriveVelocity = 0;   
+        kDDriveVelocity = 0;
       
     }
   }

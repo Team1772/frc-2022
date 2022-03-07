@@ -6,7 +6,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Shooter;
 
-public class FowardFeedSensorAndTimer extends CommandBase{
+public class ForwardFeedSensorAndTimer extends CommandBase{
     private final Buffer buffer;
     private final Shooter shooter;
 
@@ -14,7 +14,7 @@ public class FowardFeedSensorAndTimer extends CommandBase{
 
     private double secondsEnabled;
 
-    public FowardFeedSensorAndTimer(Buffer buffer, Shooter shooter, double secondsEnabled) {
+    public ForwardFeedSensorAndTimer(Buffer buffer, Shooter shooter, double secondsEnabled) {
       this.buffer = buffer;
       this.shooter = shooter;
       this.secondsEnabled = secondsEnabled;
