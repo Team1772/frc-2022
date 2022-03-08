@@ -14,15 +14,20 @@ public class RollbackAndShootAutonomous extends SequentialCommandGroup {
     private Buffer buffer;
     private Shooter shooter;
 
-    public RollbackAndShootAutonomous(double secondsShooterEnabled, Intake intake, Buffer buffer, Shooter shooter) {
+    private double shootVelocityMetersPerSecond;
+
+    public RollbackAndShootAutonomous(double secondsShooterEnabled, double shootVelocityMetersPerSecond, Intake intake, Buffer buffer, Shooter shooter) {
       this.intake = intake;
       this.buffer = buffer;
-      this.shooter = shooter;  
+      this.shooter = shooter;
+      
+      this.shootVelocityMetersPerSecond = shootVelocityMetersPerSecond;
+
       super.addCommands(
           new RollbackToShoot(this.intake, this.buffer, this.shooter),
 
           new ParallelCommandGroup(
-            new ShootTimer(this.shooter, secondsShooterEnabled),
+            new ShootTimer(shootVelocityMetersPerSecond, this.shooter, secondsShooterEnabled),
             new ForwardFeedSensorAndTimer(this.buffer, this.shooter, secondsShooterEnabled),
             new CollectCargoTimer(secondsShooterEnabled, this.intake)
           ) 

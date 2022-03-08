@@ -13,7 +13,7 @@ import frc.core.util.TrajectoryBuilder;
 import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.autonsEncoder.TwoCargosTarmacOne;
-import frc.robot.commands.autonsTrajectory.BlueBottomStartTopTwoCargos;
+import frc.robot.commands.autonsTrajectory.BlueBottomStartTopThreeCargos;
 import frc.robot.commands.autonsTrajectory.BlueTopStartCenterTwoCargos;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
@@ -52,13 +52,17 @@ public class RobotContainer {
       "exitTarmac1",
       "reverseAlignCargo1",
       "getCargoAndStopToShoot1",
-      "exitTarmac2"
+      "exitTarmac2",
+      "reverseAlignAndStopToShoot2",
+      "reverseAlignCargo2",
+      "getCargo2",
+      "alignAndStopToShoot2"
     );
 
     this.autonomousChooser = new SendableChooser<>();
 
     var blueTopStartCenterTwoCargos = new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
-    var blueBottomStartTopThreeCargos = new BlueBottomStartTopTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    var blueBottomStartTopThreeCargos = new BlueBottomStartTopThreeCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
 
     this.autonomousChooser.addOption("blue top start center two cargos", blueTopStartCenterTwoCargos);
     this.autonomousChooser.addOption("blue bottom start top three cargos", blueBottomStartTopThreeCargos);
@@ -108,7 +112,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // return this.autonomousChooser.getSelected();
-    return new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    return new BlueBottomStartTopThreeCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
   }
 
   public void reset() {

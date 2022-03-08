@@ -11,10 +11,23 @@ public class ShootTimer extends CommandBase {
   private Timer timer;
   
   private double secondsEnabled;
+  private double shootVelocityMetersPerSecond;
 
   public ShootTimer(Shooter shooter, double secondsEnabled) {
     this.shooter = shooter;
     this.secondsEnabled = secondsEnabled;
+    this.shootVelocityMetersPerSecond = 26;
+
+    this.timer = new Timer();
+    
+    addRequirements(this.shooter);
+  }
+
+  public ShootTimer(double shootVelocityMetersPerSecond, Shooter shooter, double secondsEnabled) {
+    this.shooter = shooter;
+
+    this.secondsEnabled = secondsEnabled;
+    this.shootVelocityMetersPerSecond = shootVelocityMetersPerSecond;
 
     this.timer = new Timer();
     
@@ -30,7 +43,7 @@ public class ShootTimer extends CommandBase {
   @Override
   public void execute() {
     if(this.shooter.isSafetyShoot()) {
-      this.shooter.setVelocityMetersPerSecond(26);
+      this.shooter.setVelocityMetersPerSecond(this.shootVelocityMetersPerSecond);
     }
   }
 

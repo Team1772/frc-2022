@@ -36,7 +36,7 @@ public class BlueTopStartCenterTwoCargos extends SequentialCommandGroup {
       new ParallelCommandGroup(
         trajectoryBuilder.build(false, "getCargoAndStopToShoot1"),
         new CollectCargoTimer(3, intake)
-       ),
+      ),
        
       new ShootAutonomous(2, intake, buffer, shooter)
     );
