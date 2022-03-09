@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.core.util.TrajectoryBuilder;
 import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.autonsEncoder.GoReverseAndShoot;
 import frc.robot.commands.autonsTrajectory.BlueBottomStartTopThreeCargos;
 import frc.robot.commands.autonsTrajectory.BlueTopStartCenterTwoCargos;
 import frc.robot.commands.autonsTrajectory.BlueTopStartTopTwoCargos;
@@ -115,7 +116,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // return this.autonomousChooser.getSelected();
-    return new BlueTopStartTopTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    return new GoReverseAndShoot(drivetrain, intake, buffer, shooter);
   }
 
   public void reset() {
