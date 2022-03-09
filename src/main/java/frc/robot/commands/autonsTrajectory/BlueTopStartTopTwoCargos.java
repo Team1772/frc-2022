@@ -11,6 +11,8 @@ import frc.robot.commands.autonsEncoder.DriveReverseEncoders;
 import frc.robot.commands.buffer.ForwardFeed;
 import frc.robot.commands.buffer.ReleaseFeedTimer;
 import frc.robot.commands.intake.CollectCargoTimer;
+import frc.robot.commands.intake.ReleaseCargoTimer;
+import frc.robot.commands.shooter.RollbackAndShootAutonomous;
 import frc.robot.commands.shooter.ShootAutonomous;
 import frc.robot.commands.util.WaitSeconds;
 import frc.robot.subsystems.Buffer;
@@ -21,24 +23,19 @@ import frc.robot.subsystems.Shooter;
 //max velocity: 3
 //max acceleration: 3
 
-public class BlueTopStartCenterTwoCargos extends SequentialCommandGroup {
-  public BlueTopStartCenterTwoCargos(Drivetrain drivetrain, Intake intake, Buffer buffer, Shooter shooter, TrajectoryBuilder trajectoryBuilder) {
+public class BlueTopStartTopTwoCargos extends SequentialCommandGroup {
+  public BlueTopStartTopTwoCargos(Drivetrain drivetrain, Intake intake, Buffer buffer, Shooter shooter, TrajectoryBuilder trajectoryBuilder) {
 
     super.addCommands(
       new ParallelCommandGroup(
-        trajectoryBuilder.build(true, "exitTarmac1"),
-        new ReleaseFeedTimer(1.5, buffer)
+        trajectoryBuilder.build(true, "alignCargoAndGet3"),
+        new CollectCargoTimer(2.4, intake)
       ),
-      new ShootAutonomous(2, intake, buffer, shooter),
 
-      trajectoryBuilder.build(false, "reverseAlignCargo1"),
+      trajectoryBuilder.build(false, "reverseAlignAndStopToShoot3"),
 
-      new ParallelCommandGroup(
-        trajectoryBuilder.build(false, "getCargoAndStopToShoot1"),
-        new CollectCargoTimer(3, intake)
-      ),
-       
-      new ShootAutonomous(2, intake, buffer, shooter)
+      new RollbackAndShootAutonomous(3.5, 25, intake, buffer, shooter)
     );
+
   }
 }

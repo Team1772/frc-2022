@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,9 +11,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.core.util.TrajectoryBuilder;
 import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.autonsEncoder.TwoCargosTarmacOne;
 import frc.robot.commands.autonsTrajectory.BlueBottomStartTopThreeCargos;
 import frc.robot.commands.autonsTrajectory.BlueTopStartCenterTwoCargos;
+import frc.robot.commands.autonsTrajectory.BlueTopStartTopTwoCargos;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.SmartCollect;
@@ -56,7 +55,11 @@ public class RobotContainer {
       "reverseAlignAndStopToShoot2",
       "reverseAlignCargo2",
       "getCargo2",
-      "alignAndStopToShoot2"
+      "alignAndStopToShoot2",
+      "alignCargoAndGet3",
+      "reverseAlignAndStopToShoot3",
+      "alignCargoAndGet4",
+      "reverseAlignAndStopToShoot4"
     );
 
     this.autonomousChooser = new SendableChooser<>();
@@ -112,7 +115,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // return this.autonomousChooser.getSelected();
-    return new BlueBottomStartTopThreeCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    return new BlueTopStartTopTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
   }
 
   public void reset() {
