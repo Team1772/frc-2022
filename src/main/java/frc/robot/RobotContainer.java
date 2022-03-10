@@ -16,7 +16,10 @@ import frc.robot.commands.autonsTrajectory.BlueBottomStartTopThreeCargos;
 import frc.robot.commands.autonsTrajectory.BlueTopStartCenterTwoCargos;
 import frc.robot.commands.autonsTrajectory.BlueTopStartTopTwoCargos;
 import frc.robot.commands.buffer.RollbackToShoot;
+import frc.robot.commands.drivetrain.AimAndRangeTarget;
+import frc.robot.commands.drivetrain.AimTarget;
 import frc.robot.commands.drivetrain.ArcadeDrive;
+import frc.robot.commands.drivetrain.RangeTarget;
 import frc.robot.commands.intake.SmartCollect;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.subsystems.Buffer;
@@ -91,6 +94,10 @@ public class RobotContainer {
         () -> -this.driver.getRightX()
       )
     );
+
+    var leftBumper = new JoystickButton(this.driver, Button.kLeftBumper.value);
+
+    leftBumper.whileHeld(new AimAndRangeTarget(this.drivetrain));
   }
 
   private void buttonBindingsIntake() {
@@ -116,7 +123,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // return this.autonomousChooser.getSelected();
-    return new GoReverseAndShoot(drivetrain, intake, buffer, shooter);
+    return new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
   }
 
   public void reset() {

@@ -65,15 +65,20 @@ public final class Constants {
 
 		public static final class AimTarget {
 			public static final double
-        kP = -0.1, //standard Kp. We may tune manually.
-				minCommand = 0.05; //we may test more or less minCommand. It cant be too high, since the robot would oscillate on aiming.
+        kP = 0.1, //standard Kp. We may tune manually.
+				minCommand = 0.02; //we may test more or less minCommand. It cant be too high, since the robot would oscillate on aiming.
+		}
+
+    public static final class RangeTarget {
+			public static final double 
+				kPDistance = -0.13;
 		}
 		
 		public static final class AimAndRangeTarget {
 			public static final double 
         kP = -0.1,
-				kPDistance = -0.1,
-				minCommand = 0.05;
+				kPDistance = -0.50,
+				minCommand = 0.04;
 		}
 	}
   public static final class OIConstants {
