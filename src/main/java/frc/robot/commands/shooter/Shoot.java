@@ -11,14 +11,17 @@ public class Shoot extends ParallelCommandGroup {
     private Intake intake;
     private Buffer buffer;
     private Shooter shooter;
+
+    private double speed;
   
-    public Shoot(Intake intake, Buffer buffer, Shooter shooter) {
+    public Shoot(double speed, Intake intake, Buffer buffer, Shooter shooter) {
       this.intake = intake;
       this.buffer = buffer;
       this.shooter = shooter;
+      this.speed = speed;
   
       super.addCommands(
-          new ShootCargo(this.shooter),
+          new ShootCargo(this.speed, this.shooter),
           new UseBufferToShoot(this.buffer, this.shooter),
           new CollectCargoSensor(this.intake, this.shooter)
       );

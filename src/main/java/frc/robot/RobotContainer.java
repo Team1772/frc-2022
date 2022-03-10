@@ -11,15 +11,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.core.util.TrajectoryBuilder;
 import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.autonsEncoder.GoReverseAndShoot;
+import frc.robot.commands.autonsTrajectory.BlueBottomStartBottomTwoCargos;
 import frc.robot.commands.autonsTrajectory.BlueBottomStartTopThreeCargos;
 import frc.robot.commands.autonsTrajectory.BlueTopStartCenterTwoCargos;
 import frc.robot.commands.autonsTrajectory.BlueTopStartTopTwoCargos;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.AimAndRangeTarget;
-import frc.robot.commands.drivetrain.AimTarget;
 import frc.robot.commands.drivetrain.ArcadeDrive;
-import frc.robot.commands.drivetrain.RangeTarget;
 import frc.robot.commands.intake.SmartCollect;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.subsystems.Buffer;
@@ -34,8 +32,7 @@ public class RobotContainer {
   private final Buffer buffer;
 
   private TrajectoryBuilder trajectoryBuilder;
-  SendableChooser<Command> autonomousChooser;
-
+  private SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
   private XboxController driver;
   private XboxController operator;
@@ -45,7 +42,6 @@ public class RobotContainer {
     this.intake = new Intake();
     this.shooter = new Shooter();
     this.buffer = new Buffer();
-
 
     this.driver = new XboxController(OIConstants.driverControllerPort);
     this.operator = new XboxController(OIConstants.operatorControllerPort);
@@ -66,13 +62,15 @@ public class RobotContainer {
       "reverseAlignAndStopToShoot4"
     );
 
-    this.autonomousChooser = new SendableChooser<>();
+    Command blueTopStartCenterTwoCargos = new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    Command blueBottomStartTopThreeCargos = new BlueBottomStartTopThreeCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    Command blueTopStartTopTwoCargos = new BlueTopStartTopTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    Command blueBottomStartBottomTwoCargos = new BlueBottomStartBottomTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
 
-    var blueTopStartCenterTwoCargos = new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
-    var blueBottomStartTopThreeCargos = new BlueBottomStartTopThreeCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
-
-    this.autonomousChooser.addOption("blue top start center two cargos", blueTopStartCenterTwoCargos);
+    this.autonomousChooser.setDefaultOption("blue top start center two cargos", blueTopStartCenterTwoCargos);
     this.autonomousChooser.addOption("blue bottom start top three cargos", blueBottomStartTopThreeCargos);
+    this.autonomousChooser.addOption("blue top start top two cargos", blueTopStartTopTwoCargos);
+    this.autonomousChooser.addOption("blue bottom start bottom two cargos", blueBottomStartBottomTwoCargos);
 
     SmartDashboard.putData(this.autonomousChooser);
 
@@ -108,8 +106,12 @@ public class RobotContainer {
 
   private void buttonBindingsShooter() {
     var buttonBumperRight = new JoystickButton(this.operator, Button.kRightBumper.value);
+    var buttonY = new JoystickButton(this.operator, Button.kY.value);
     
-    buttonBumperRight.whileHeld(new Shoot(this.intake, this.buffer, this.shooter));
+    buttonBumperRight.whileHeld(new Shoot(25, this.intake, this.buffer, this.shooter));
+    buttonY.whileHeld(new Shoot(10, intake, buffer, shooter));
+
+
   }
 
   private void buttonBindingsBuffer() {
@@ -122,7 +124,12 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    // return this.autonomousChooser.getSelected();
+    /* This return does not work
+    
+    return this.autonomousChooser.getSelected();
+    */
+
+    //this return works
     return new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
   }
 

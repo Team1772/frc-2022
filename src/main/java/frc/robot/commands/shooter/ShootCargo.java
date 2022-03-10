@@ -5,9 +5,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ShootCargo extends CommandBase {
   private final Shooter shooter;
+  private double speed;
 
-  public ShootCargo(Shooter shooter) {
+  public ShootCargo(double speed, Shooter shooter) {
     this.shooter = shooter;
+    this.speed = speed;
     
     addRequirements(this.shooter);
   }
@@ -15,7 +17,7 @@ public class ShootCargo extends CommandBase {
   @Override
   public void execute() {
     if(this.shooter.isSafetyShoot()) {
-      this.shooter.setVelocityMetersPerSecond(25);
+      this.shooter.setVelocityMetersPerSecond(speed);
     }
   }
 

@@ -184,6 +184,10 @@ public class Drivetrain extends SubsystemBase {
     this.odometry.resetPosition(pose, this.getRotation2d());
   }
 
+  public void resetHeading() {
+    
+  }
+
   public Encoder getEncoderLeft() {
     return this.encoderLeft;
   }
