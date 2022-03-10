@@ -5,6 +5,7 @@ import static java.util.Objects.isNull;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -86,7 +87,7 @@ public class TrajectoryBuilder {
 				this.drivetrain
 			);
 					
-			if (updateOdometry) this.drivetrain.resetOdometry(trajectory.getInitialPose());
+			// if (updateOdometry) this.drivetrain.resetOdometry(trajectory.getInitialPose());
 		}
   	}
 
@@ -105,7 +106,9 @@ public class TrajectoryBuilder {
 			this.concatenate(trajectories) : 
       		trajectories.get(FIRST_TRAJECTORY_INDEX);
 
-		System.out.println(trajectories.size());
+    if (updateOdometry) {
+    this.drivetrain.resetOdometry(trajectory.getInitialPose());
+    }
 
 		this.createRamsete(trajectory, updateOdometry);
 

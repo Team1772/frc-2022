@@ -1,18 +1,24 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.core.util.TrajectoryBuilder;
+import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.autonsEncoder.AutonomousEncoders;
-import frc.robot.commands.buffer.ForwardFeed;
+import frc.robot.commands.autonsEncoder.GoReverseAndShoot;
+import frc.robot.commands.autonsTrajectory.BlueBottomStartTopThreeCargos;
+import frc.robot.commands.autonsTrajectory.BlueTopStartCenterTwoCargos;
+import frc.robot.commands.autonsTrajectory.BlueTopStartTopTwoCargos;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.ArcadeDrive;
-import frc.robot.commands.intake.SmartFeed;
-
-import frc.robot.commands.shooter.ShootCargo;
+import frc.robot.commands.intake.SmartCollect;
+import frc.robot.commands.shooter.Shoot;
 import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -25,6 +31,8 @@ public class RobotContainer {
   private final Buffer buffer;
 
   private TrajectoryBuilder trajectoryBuilder;
+  SendableChooser<Command> autonomousChooser;
+
 
   private XboxController driver;
   private XboxController operator;
@@ -41,9 +49,29 @@ public class RobotContainer {
 
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
-      "testAuto1",
-      "testAuto2"
+      "exitTarmac1",
+      "reverseAlignCargo1",
+      "getCargoAndStopToShoot1",
+      "exitTarmac2",
+      "reverseAlignAndStopToShoot2",
+      "reverseAlignCargo2",
+      "getCargo2",
+      "alignAndStopToShoot2",
+      "alignCargoAndGet3",
+      "reverseAlignAndStopToShoot3",
+      "alignCargoAndGet4",
+      "reverseAlignAndStopToShoot4"
     );
+
+    this.autonomousChooser = new SendableChooser<>();
+
+    var blueTopStartCenterTwoCargos = new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    var blueBottomStartTopThreeCargos = new BlueBottomStartTopThreeCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+
+    this.autonomousChooser.addOption("blue top start center two cargos", blueTopStartCenterTwoCargos);
+    this.autonomousChooser.addOption("blue bottom start top three cargos", blueBottomStartTopThreeCargos);
+
+    SmartDashboard.putData(this.autonomousChooser);
 
     configureButtonBindings();
   }
@@ -59,8 +87,8 @@ public class RobotContainer {
     this.drivetrain.setDefaultCommand(
       new ArcadeDrive(
         this.drivetrain, 
-        () -> this.driver.getLeftY(), 
-        () -> this.driver.getRightX()
+        () -> -this.driver.getLeftY(), 
+        () -> -this.driver.getRightX()
       )
     );
   }
@@ -68,31 +96,34 @@ public class RobotContainer {
   private void buttonBindingsIntake() {
     var leftBumper = new JoystickButton(this.operator, Button.kLeftBumper.value);
 
-    leftBumper.whileHeld(new SmartFeed(intake, buffer));
+    leftBumper.whileHeld(new SmartCollect(this.intake, this.buffer, this.shooter));
   }
 
   private void buttonBindingsShooter() {
-    var buttonA = new JoystickButton(this.operator, Button.kA.value);
-                                                       
-    buttonA.whileHeld(new ShootCargo(this.shooter));
+    var buttonBumperRight = new JoystickButton(this.operator, Button.kRightBumper.value);
+    
+    buttonBumperRight.whileHeld(new Shoot(this.intake, this.buffer, this.shooter));
   }
 
   private void buttonBindingsBuffer() {
-    var rightBumper = new JoystickButton(this.operator, Button.kRightBumper.value);
     var buttonX = new JoystickButton(this.operator, Button.kX.value);
-    var buttonB = new JoystickButton(this.operator, Button.kB.value);
 
+    var shooterFree = new Trigger(() -> this.buffer.isAllInfraredsOff());
 
-    rightBumper.whileHeld(new ForwardFeed(this.buffer));
+    buttonX.and(shooterFree).whileActiveContinuous(new OperatorRumble(this.operator, true));
     buttonX.whileHeld(new RollbackToShoot(this.intake, this.buffer, this.shooter));
-    buttonB.whileHeld(new ForwardFeed(this.buffer));
   }
 
   public Command getAutonomousCommand() {
-    return new AutonomousEncoders(this.drivetrain);
+    // return this.autonomousChooser.getSelected();
+    return new GoReverseAndShoot(drivetrain, intake, buffer, shooter);
   }
 
   public void reset() {
     this.drivetrain.reset();
+  }
+
+  public void setRumble(double value) {
+    this.operator.setRumble(RumbleType.kLeftRumble, value);
   }
 }

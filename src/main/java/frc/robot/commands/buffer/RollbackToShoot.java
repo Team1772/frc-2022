@@ -1,8 +1,8 @@
 package frc.robot.commands.buffer;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.intake.ReleaseCargo;
-import frc.robot.commands.shooter.PullCargo;
+import frc.robot.commands.intake.ReleaseCargoSensor;
+import frc.robot.commands.shooter.PullCargoSensor;
 import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -19,9 +19,9 @@ public class RollbackToShoot extends ParallelCommandGroup {
     this.shooter = shooter;
 
     super.addCommands(
-      new ReleaseCargo(intake),
-      new ReleaseFeed(buffer),
-      new PullCargo(shooter)
+      new ReleaseCargoSensor(intake, buffer),
+      new ReleaseFeedSensor(buffer),
+      new PullCargoSensor(shooter, buffer)
     );
 
     super.addRequirements(this.intake, this.buffer, this.shooter);

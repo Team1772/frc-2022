@@ -8,7 +8,7 @@ import frc.robot.subsystems.Drivetrain.Arcade;
 public class RotateToAngle extends CommandBase {
 
   private static final int ZERO_NUMBER = 0;
-  private static final double ROTATION_RATE = 0.63;
+  private static final double ROTATION_RATE = 0.80;
 
   private final Drivetrain drivetrain;
   private double angle;

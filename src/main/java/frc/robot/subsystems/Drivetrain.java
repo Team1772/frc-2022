@@ -1,11 +1,20 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotGearing;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotMotor;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotWheelSize;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -16,6 +25,7 @@ import frc.core.components.SmartNavX;
 import frc.robot.Constants.DrivetrainConstants;
 
 public class Drivetrain extends SubsystemBase {
+  private Field2d m_field = new Field2d();
 
   public enum Arcade {
     FULL_SPEED(1.0), 
@@ -49,8 +59,12 @@ public class Drivetrain extends SubsystemBase {
   private final Encoder encoderRight, encoderLeft;
   private final SmartNavX navX;
   private final DifferentialDriveOdometry odometry;
+  private EncoderSim m_leftEncoderSim;
+  private EncoderSim m_rightEncoderSim;
+  DifferentialDrivetrainSim m_driveSim;
 
   public Drivetrain() {
+    SmartDashboard.putData("Field", m_field);
     this.motorsLeft = new MotorControllerGroup(
         new VictorSP(DrivetrainConstants.motorLeftBack),
         new VictorSP(DrivetrainConstants.motorLeftFront));
@@ -64,6 +78,13 @@ public class Drivetrain extends SubsystemBase {
 
     this.drive = new DifferentialDrive(this.motorsRight, this.motorsLeft);
 
+    m_driveSim = DifferentialDrivetrainSim.createKitbotSim(
+      KitbotMotor.kDualCIMPerSide, // 2 CIMs per side.
+      KitbotGearing.k10p71,        // 10.71:1
+      KitbotWheelSize.kSixInch,     // 6" diameter wheels.
+      null                         // No measurement noise.
+    );
+
     this.encoderLeft = new Encoder(
         DrivetrainConstants.encoderLeftPortOne,
         DrivetrainConstants.encoderLeftPortTwo,
@@ -73,6 +94,12 @@ public class Drivetrain extends SubsystemBase {
         DrivetrainConstants.encoderRightPortOne,
         DrivetrainConstants.encoderRightPortTwo,
         DrivetrainConstants.isEncoderRightInverted);
+
+    // These are our EncoderSim objects, which we will only use in
+    // simulation. However, you do not need to comment out these
+    // declarations when you are deploying code to the roboRIO.
+    m_leftEncoderSim = new EncoderSim(encoderLeft);
+    m_rightEncoderSim = new EncoderSim(encoderRight);
 
     this.navX = new SmartNavX();
 
@@ -191,5 +218,29 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("[LIMELIGHT] Is On Target", Limelight.getV());
 
     this.updateOdometry();
+    m_field.setRobotPose(getPose());
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    // Set the inputs to the system. Note that we need to convert
+    // the [-1, 1] PWM signal to voltage by multiplying it by the
+    // robot controller voltage.
+    m_driveSim.setInputs(motorsLeft.get() * RobotController.getInputVoltage(),
+    motorsRight.get() * RobotController.getInputVoltage());
+
+    // Advance the model by 20 ms. Note that if you are running this
+    // subsystem in a separate thread or have changed the nominal timestep
+    // of TimedRobot, this value needs to match it.
+    m_driveSim.update(0.02);
+
+    // Update all of our sensors.
+    m_leftEncoderSim.setDistance(m_driveSim.getLeftPositionMeters());
+    m_leftEncoderSim.setRate(m_driveSim.getLeftVelocityMetersPerSecond());
+    m_rightEncoderSim.setDistance(m_driveSim.getRightPositionMeters());
+    m_rightEncoderSim.setRate(m_driveSim.getRightVelocityMetersPerSecond());
+    int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
+    angle.set(-m_driveSim.getHeading().getDegrees());
   }
 }

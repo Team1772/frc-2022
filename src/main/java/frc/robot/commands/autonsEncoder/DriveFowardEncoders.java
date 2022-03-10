@@ -1,6 +1,7 @@
 package frc.robot.commands.autonsEncoder;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.core.util.NumberUtil;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain.Arcade;
 
@@ -12,7 +13,7 @@ public class DriveFowardEncoders extends CommandBase {
   private static final double METERS_LEFT_TO_DECREASE_SPEED = 1.5;
   private static final double DECREASE_SPEED_RATE = 0.002;
 
-  private static final double MINIMUM_SPEED = 0.45;
+  private static final double MINIMUM_SPEED = 0.60;
 
   private final Drivetrain drivetrain;
   private double meters;
@@ -52,11 +53,11 @@ public class DriveFowardEncoders extends CommandBase {
   }
 
   private boolean isStarting() {
-    return this.drivetrain.getAverageDistance() < METERS_RAN_TO_INCREASE_SPEED;
+    return this.getModuleAverageDistance() < METERS_RAN_TO_INCREASE_SPEED;
   }
 
   private boolean isNearEnd() {
-    return this.drivetrain.getAverageDistance() + METERS_LEFT_TO_DECREASE_SPEED > this.meters;
+    return this.getModuleAverageDistance() + METERS_LEFT_TO_DECREASE_SPEED > this.meters;
   }
 
   private boolean isStartSpeedAtMaximum() {
@@ -87,6 +88,10 @@ public class DriveFowardEncoders extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return this.drivetrain.getAverageDistance() > this.meters;
+    return this.getModuleAverageDistance() > this.meters;
+  }
+
+  private double getModuleAverageDistance() {
+    return NumberUtil.module(this.drivetrain.getAverageDistance());
   }
 }
