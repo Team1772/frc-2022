@@ -15,9 +15,13 @@ import frc.robot.commands.autonsTrajectory.BlueBottomStartBottomTwoCargos;
 import frc.robot.commands.autonsTrajectory.BlueBottomStartTopThreeCargos;
 import frc.robot.commands.autonsTrajectory.BlueTopStartCenterTwoCargos;
 import frc.robot.commands.autonsTrajectory.BlueTopStartTopTwoCargos;
+import frc.robot.commands.buffer.Rollback;
 import frc.robot.commands.buffer.RollbackToShoot;
 import frc.robot.commands.drivetrain.AimAndRangeTarget;
+import frc.robot.commands.drivetrain.AimTarget;
 import frc.robot.commands.drivetrain.ArcadeDrive;
+import frc.robot.commands.drivetrain.RangeTarget;
+import frc.robot.commands.intake.ReleaseCargo;
 import frc.robot.commands.intake.SmartCollect;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.subsystems.Buffer;
@@ -94,14 +98,18 @@ public class RobotContainer {
     );
 
     var leftBumper = new JoystickButton(this.driver, Button.kLeftBumper.value);
+    var rightBumper = new JoystickButton(this.driver, Button.kRightBumper.value);
 
-    leftBumper.whileHeld(new AimAndRangeTarget(this.drivetrain));
+    leftBumper.whileHeld(new AimTarget(this.drivetrain));
+    rightBumper.whileHeld(new RangeTarget(this.drivetrain));
   }
 
   private void buttonBindingsIntake() {
     var leftBumper = new JoystickButton(this.operator, Button.kLeftBumper.value);
+    var buttonA = new JoystickButton(this.operator, Button.kA.value);
 
     leftBumper.whileHeld(new SmartCollect(this.intake, this.buffer, this.shooter));
+    buttonA.whileHeld(new ReleaseCargo(0.5, intake));
   }
 
   private void buttonBindingsShooter() {
@@ -110,11 +118,20 @@ public class RobotContainer {
     
     buttonBumperRight.whileHeld(new Shoot(25, this.intake, this.buffer, this.shooter));
     buttonY.whileHeld(new Shoot(10, intake, buffer, shooter));
-
-
   }
 
   private void buttonBindingsBuffer() {
+    var leftStick = new JoystickButton(this.operator, Button.kLeftStick.value);
+
+    leftStick.whenHeld(
+      new Rollback(
+        () -> this.operator.getRightY(), 
+        intake, 
+        buffer, 
+        shooter
+      )
+    );
+
     var buttonX = new JoystickButton(this.operator, Button.kX.value);
 
     var shooterFree = new Trigger(() -> this.buffer.isAllInfraredsOff());
@@ -129,7 +146,7 @@ public class RobotContainer {
     return this.autonomousChooser.getSelected();
     */
 
-    //this return works
+    //this return
     return new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
   }
 
