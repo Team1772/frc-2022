@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.core.util.TrajectoryBuilder;
+import frc.core.util.oi.DriveteamRumble;
 import frc.core.util.oi.OperatorRumble;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.autonsTrajectory.BlueBottomStartBottomTwoCargos;
@@ -108,6 +109,9 @@ public class RobotContainer {
     var leftBumper = new JoystickButton(this.operator, Button.kLeftBumper.value);
     var buttonA = new JoystickButton(this.operator, Button.kA.value);
 
+    var cargoOnIntake = new Trigger(() -> this.intake.isProximityDetectingCargo());
+
+    leftBumper.and(cargoOnIntake).whileActiveContinuous(new DriveteamRumble(this.driver, this.operator, true));
     leftBumper.whileHeld(new SmartCollect(this.intake, this.buffer, this.shooter));
     buttonA.whileHeld(new ReleaseCargo(0.5, intake));
   }
