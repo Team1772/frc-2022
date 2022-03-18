@@ -1,13 +1,17 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.core.util.NumberUtil;
 import frc.core.util.TrajectoryBuilder;
 import frc.core.util.oi.DriveteamRumble;
 import frc.core.util.oi.OperatorRumble;
@@ -24,8 +28,11 @@ import frc.robot.commands.drivetrain.AimAndRangeTarget;
 import frc.robot.commands.drivetrain.AimTarget;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.drivetrain.RangeTarget;
+import frc.robot.commands.intake.CollectCargo;
 import frc.robot.commands.intake.ReleaseCargo;
 import frc.robot.commands.intake.SmartCollect;
+import frc.robot.commands.intake.TransportCargoToShooter;
+import frc.robot.commands.shooter.PrepareShoot;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.subsystems.Buffer;
 import frc.robot.subsystems.Climber;
@@ -102,21 +109,46 @@ public class RobotContainer {
   }
 
   private void buttonBindingsIntake() {
-    var leftBumper = new JoystickButton(this.operator, Button.kLeftBumper.value);
+    var buttonBumperLeft = new JoystickButton(this.operator, Button.kLeftBumper.value);
+    var buttonA = new JoystickButton(this.operator, Button.kA.value);
 
-    leftBumper.whileHeld(new SmartCollect(this.intake, this.buffer, this.shooter));
+    buttonBumperLeft.whileHeld(new SmartCollect(this.intake, this.buffer, this.shooter));
+
+    if (buttonA.get()) {
+      buttonBumperLeft.whileHeld(new CollectCargo(intake));
+    } else {
+      buttonBumperLeft.whileHeld(new SmartCollect(intake, buffer, shooter));
+    }
+
+    if (NumberUtil.module(this.operator.getLeftTriggerAxis()) > 0) {
+      new ScheduleCommand(new CollectCargo(intake));
+    }
   }
 
   private void buttonBindingsShooter() {
     var buttonBumperRight = new JoystickButton(this.operator, Button.kRightBumper.value);
     var buttonY = new JoystickButton(this.operator, Button.kY.value);
+    var buttonA = new JoystickButton(this.operator, Button.kA.value);
     
     buttonBumperRight.whileHeld(new Shoot(25, this.intake, this.buffer, this.shooter));
     buttonY.whileHeld(new Shoot(10, intake, buffer, shooter));
+
+    if (buttonA.get()) {
+      buttonBumperRight.whileHeld(new PrepareShoot(25, shooter));
+    } else {
+      buttonBumperRight.whileHeld(new Shoot(25, intake, buffer, shooter));
+    }
+
+    if (NumberUtil.module(this.operator.getRightTriggerAxis()) > 0) {
+      new ScheduleCommand(new PrepareShoot(25, this.shooter));
+    }
   }
 
   private void buttonBindingsBuffer() {
+    var buttonB = new JoystickButton(this.operator, Button.kB.value);
     var leftStick = new JoystickButton(this.operator, Button.kLeftStick.value);
+
+    buttonB.whileHeld(new TransportCargoToShooter(this.intake, this.buffer));
 
     leftStick.whenHeld(
       new Rollback(
