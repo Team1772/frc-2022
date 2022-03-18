@@ -154,5 +154,11 @@ public final class Constants {
     public static final double speed = 0.45;
     public static final boolean isInverted = false;
   }
+
+  public static final class ClimberConstants {
+    public static final int motorPort = 0;
+
+    public static final boolean isInverted = false;
+  }
   
 }

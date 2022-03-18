@@ -17,7 +17,6 @@ public class SmartCollect extends ParallelCommandGroup {
 
     super.addCommands(
       new CollectCargo(intake),
-      // new CollectCargoColorSensor(intake),
       new ForwardFeed(buffer),
       new PullCargoUntilShooterHasNoVelocity(shooter)
     );

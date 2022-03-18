@@ -15,9 +15,11 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.autonsTrajectory.BlueBottomStartBottomTwoCargos;
 import frc.robot.commands.autonsTrajectory.BlueBottomStartTopThreeCargos;
 import frc.robot.commands.autonsTrajectory.BlueTopStartCenterTwoCargos;
+import frc.robot.commands.autonsTrajectory.BlueTopStartCenterTwoCargosUpdated;
 import frc.robot.commands.autonsTrajectory.BlueTopStartTopTwoCargos;
 import frc.robot.commands.buffer.Rollback;
 import frc.robot.commands.buffer.RollbackToShoot;
+import frc.robot.commands.climber.ChangeClimberSize;
 import frc.robot.commands.drivetrain.AimAndRangeTarget;
 import frc.robot.commands.drivetrain.AimTarget;
 import frc.robot.commands.drivetrain.ArcadeDrive;
@@ -26,6 +28,7 @@ import frc.robot.commands.intake.ReleaseCargo;
 import frc.robot.commands.intake.SmartCollect;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.subsystems.Buffer;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -35,9 +38,9 @@ public class RobotContainer {
   private final Intake intake;
   private final Shooter shooter;
   private final Buffer buffer;
+  private final Climber climber;
 
   private TrajectoryBuilder trajectoryBuilder;
-  private SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
   private XboxController driver;
   private XboxController operator;
@@ -47,37 +50,29 @@ public class RobotContainer {
     this.intake = new Intake();
     this.shooter = new Shooter();
     this.buffer = new Buffer();
+    this.climber = new Climber();
 
     this.driver = new XboxController(OIConstants.driverControllerPort);
     this.operator = new XboxController(OIConstants.operatorControllerPort);
 
     this.trajectoryBuilder = new TrajectoryBuilder(
       this.drivetrain,
-      "exitTarmac1",
-      "reverseAlignCargo1",
-      "getCargoAndStopToShoot1",
-      "exitTarmac2",
-      "reverseAlignAndStopToShoot2",
-      "reverseAlignCargo2",
-      "getCargo2",
-      "alignAndStopToShoot2",
-      "alignCargoAndGet3",
-      "reverseAlignAndStopToShoot3",
-      "alignCargoAndGet4",
-      "reverseAlignAndStopToShoot4"
+      // "exitTarmac1",
+      // "reverseAlignCargo1",
+      // "getCargoAndStopToShoot1",
+      // "exitTarmac2",
+      // "reverseAlignAndStopToShoot2",
+      // "reverseAlignCargo2",
+      // "getCargo2",
+      // "alignAndStopToShoot2",
+      // "alignCargoAndGet3",
+      // "reverseAlignAndStopToShoot3",
+      // "alignCargoAndGet4",
+      // "reverseAlignAndStopToShoot4",
+      "exitTarmac5",
+      "reverseAlignCargo5",
+      "getCargoAndStopToShoot5"
     );
-
-    Command blueTopStartCenterTwoCargos = new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
-    Command blueBottomStartTopThreeCargos = new BlueBottomStartTopThreeCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
-    Command blueTopStartTopTwoCargos = new BlueTopStartTopTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
-    Command blueBottomStartBottomTwoCargos = new BlueBottomStartBottomTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
-
-    this.autonomousChooser.setDefaultOption("blue top start center two cargos", blueTopStartCenterTwoCargos);
-    this.autonomousChooser.addOption("blue bottom start top three cargos", blueBottomStartTopThreeCargos);
-    this.autonomousChooser.addOption("blue top start top two cargos", blueTopStartTopTwoCargos);
-    this.autonomousChooser.addOption("blue bottom start bottom two cargos", blueBottomStartBottomTwoCargos);
-
-    SmartDashboard.putData(this.autonomousChooser);
 
     configureButtonBindings();
   }
@@ -87,6 +82,7 @@ public class RobotContainer {
     this.buttonBindingsIntake();
     this.buttonBindingsBuffer();
     this.buttonBindingsShooter();
+    this.buttonBindingsClimber();
   }
 
   private void buttonBindingsDrivetain() {
@@ -107,13 +103,8 @@ public class RobotContainer {
 
   private void buttonBindingsIntake() {
     var leftBumper = new JoystickButton(this.operator, Button.kLeftBumper.value);
-    var buttonA = new JoystickButton(this.operator, Button.kA.value);
 
-    var cargoOnIntake = new Trigger(() -> this.intake.isProximityDetectingCargo());
-
-    leftBumper.and(cargoOnIntake).whileActiveContinuous(new DriveteamRumble(this.driver, this.operator, true));
     leftBumper.whileHeld(new SmartCollect(this.intake, this.buffer, this.shooter));
-    buttonA.whileHeld(new ReleaseCargo(0.5, intake));
   }
 
   private void buttonBindingsShooter() {
@@ -144,14 +135,20 @@ public class RobotContainer {
     buttonX.whileHeld(new RollbackToShoot(this.intake, this.buffer, this.shooter));
   }
 
-  public Command getAutonomousCommand() {
-    /* This return does not work
-    
-    return this.autonomousChooser.getSelected();
-    */
+  public void buttonBindingsClimber() {
 
-    //this return
-    return new BlueTopStartCenterTwoCargos(drivetrain, intake, buffer, shooter, trajectoryBuilder);
+    var rightStick = new JoystickButton(this.operator, Button.kRightStick.value);
+
+    rightStick.whenHeld(
+      new ChangeClimberSize(
+        () -> this.operator.getLeftY(), 
+        this.climber
+      )
+    );
+  }
+
+  public Command getAutonomousCommand() {
+    return new BlueTopStartCenterTwoCargosUpdated(drivetrain, intake, buffer, shooter, trajectoryBuilder);
   }
 
   public void reset() {
