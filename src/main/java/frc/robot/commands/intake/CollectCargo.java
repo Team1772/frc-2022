@@ -1,6 +1,7 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
 
 public class CollectCargo extends CommandBase {
@@ -13,8 +14,11 @@ public class CollectCargo extends CommandBase {
   }
 
   @Override
+  public void initialize() {}
+
+  @Override
   public void execute() {
-    this.intake.set(0.4);
+    this.intake.set(IntakeConstants.speed);
   }
 
   @Override
