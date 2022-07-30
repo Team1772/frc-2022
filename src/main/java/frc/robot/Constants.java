@@ -24,8 +24,8 @@ public final class Constants {
       encoderRightPortTwo = 9;
 
     public static final boolean
-      isEncoderLeftInverted = true,
-      isEncoderRightInverted = false;
+      isEncoderLeftInverted = false,
+      isEncoderRightInverted = true;
     
     public static final int
       pulsesPerRotation = 500, 
@@ -140,7 +140,7 @@ public final class Constants {
       motorPort = 2,
       infraredSensorPort = 5;
 
-    public static final double speed = 0.5;
+    public static final double speed = 0.7;
     public static final boolean isInverted = true;
 
   }
@@ -148,10 +148,10 @@ public final class Constants {
   public static final class BufferConstants {
     public static final int 
       motorPort = 3,
-      infraredBottomPort = 5,
-      infraredTopPort = 4;
+      infraredBottomPort = 4,
+      infraredTopPort = 5;
 
-    public static final double speed = 0.45;
+    public static final double speed = 0.40;
     public static final boolean isInverted = false;
   }
 

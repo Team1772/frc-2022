@@ -95,9 +95,6 @@ public class Drivetrain extends SubsystemBase {
         DrivetrainConstants.encoderRightPortTwo,
         DrivetrainConstants.isEncoderRightInverted);
 
-    // These are our EncoderSim objects, which we will only use in
-    // simulation. However, you do not need to comment out these
-    // declarations when you are deploying code to the roboRIO.
     m_leftEncoderSim = new EncoderSim(encoderLeft);
     m_rightEncoderSim = new EncoderSim(encoderRight);
 
@@ -216,35 +213,7 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("[DRIVETRAIN] Encoder Right", this.encoderRight.get());
     SmartDashboard.putNumber("[DRIVETRAIN] Average Distance", this.getAverageDistance());
 
-    SmartDashboard.putNumber("[LIMELIGHT] X-axis", Limelight.getX());
-    SmartDashboard.putNumber("[LIMELIGHT] Y-axis", Limelight.getY());
-    SmartDashboard.putNumber("[LIMELIGHT] Target Area", Limelight.getA());
-    SmartDashboard.putNumber("[LIMELIGHT] Is On Target", Limelight.getV());
-
     this.updateOdometry();
     m_field.setRobotPose(getPose());
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // Set the inputs to the system. Note that we need to convert
-    // the [-1, 1] PWM signal to voltage by multiplying it by the
-    // robot controller voltage.
-    m_driveSim.setInputs(motorsLeft.get() * RobotController.getInputVoltage(),
-    motorsRight.get() * RobotController.getInputVoltage());
-
-    // Advance the model by 20 ms. Note that if you are running this
-    // subsystem in a separate thread or have changed the nominal timestep
-    // of TimedRobot, this value needs to match it.
-    m_driveSim.update(0.02);
-
-    // Update all of our sensors.
-    m_leftEncoderSim.setDistance(m_driveSim.getLeftPositionMeters());
-    m_leftEncoderSim.setRate(m_driveSim.getLeftVelocityMetersPerSecond());
-    m_rightEncoderSim.setDistance(m_driveSim.getRightPositionMeters());
-    m_rightEncoderSim.setRate(m_driveSim.getRightVelocityMetersPerSecond());
-    int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
-    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
-    angle.set(-m_driveSim.getHeading().getDegrees());
   }
 }
